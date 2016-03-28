@@ -88,6 +88,9 @@ namespace Win10StyleLauncher
 			// aapt resource value: 0x7f030001
 			public const int NormalTile = 2130903041;
 			
+			// aapt resource value: 0x7f030002
+			public const int WideTile = 2130903042;
+			
 			static Layout()
 			{
 				global::Android.Runtime.ResourceIdManager.UpdateIdValues();
@@ -122,6 +125,9 @@ namespace Win10StyleLauncher
 			
 			// aapt resource value: 0x7f040000
 			public const int normal_tile = 2130968576;
+			
+			// aapt resource value: 0x7f040001
+			public const int wide_tile = 2130968577;
 			
 			static Xml()
 			{
