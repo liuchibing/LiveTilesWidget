@@ -8,7 +8,7 @@ using Android.OS;
 
 namespace Win10StyleLauncher
 {
-    [Activity(Label = "Win10StyleLauncher", MainLauncher = true, Icon = "@drawable/icon")]
+    [Activity(Label = "动态磁贴窗口小部件", MainLauncher = true, Icon = "@drawable/icon")]
     public class MainActivity : Activity
     {
         int count = 1;

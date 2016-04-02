@@ -1,5 +1,4 @@
 using System;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -22,6 +21,7 @@ namespace Win10StyleLauncher
         public override void OnUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds)
         {
             base.OnUpdate(context, appWidgetManager, appWidgetIds);
+            Codes.InitializeTile(context, appWidgetManager, appWidgetIds);
         }
     }
 }

@@ -49,6 +49,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Codes.cs" />
+    <Compile Include="InitializeTile.cs" />
     <Compile Include="MainActivity.cs" />
     <Compile Include="NormalTileProvider.cs" />
     <Compile Include="Resources\Resource.Designer.cs" />
@@ -62,7 +64,9 @@
     <AndroidResource Include="Resources\layout\NormalTile.axml">
       <SubType>AndroidResource</SubType>
     </AndroidResource>
-    <AndroidResource Include="Resources\layout\WideTile.axml" />
+    <AndroidResource Include="Resources\layout\TileSettings.axml">
+      <SubType>AndroidResource</SubType>
+    </AndroidResource>
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\layout\Main.axml" />

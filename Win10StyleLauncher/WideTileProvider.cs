@@ -21,6 +21,7 @@ namespace Win10StyleLauncher
         public override void OnUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds)
         {
             base.OnUpdate(context, appWidgetManager, appWidgetIds);
+            Codes.InitializeTile(context, appWidgetManager, appWidgetIds);
         }
     }
 }
