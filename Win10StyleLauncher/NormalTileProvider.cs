@@ -11,7 +11,7 @@ using Android.Views;
 using Android.Widget;
 using Android.Appwidget;
 
-namespace Win10StyleLauncher
+namespace LiveTilesWidget
 {
     [BroadcastReceiver(Label = "Normal Live Tile")]
     [IntentFilter(new string[] { "android.appwidget.action.APPWIDGET_UPDATE" })]
@@ -21,7 +21,15 @@ namespace Win10StyleLauncher
         public override void OnUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds)
         {
             base.OnUpdate(context, appWidgetManager, appWidgetIds);
-            Codes.InitializeTile(context, appWidgetManager, appWidgetIds);
+
+            //读取磁贴信息的存储
+            ContextWrapper contextWrapper = new ContextWrapper(context);
+            var preference = contextWrapper.GetSharedPreferences("tiles", FileCreationMode.Private);
+            //仅当磁贴ID未记录在存储中时才进行初始化
+            if (!preference.Contains(appWidgetIds[0].ToString()+"Label"))
+            {
+                Codes.InitializeTile(context, appWidgetManager, appWidgetIds);
+            }
         }
     }
 }

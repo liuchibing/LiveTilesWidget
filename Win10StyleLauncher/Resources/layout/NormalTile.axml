@@ -3,7 +3,13 @@
     p1:layout_width="match_parent"
     p1:layout_height="match_parent"
     p1:id="@+id/tileRoot"
-    p1:background="@android:color/holo_blue_bright">
+    p1:padding="2.5dp">
+    <ImageView
+        p1:src="@android:color/holo_blue_bright"
+        p1:layout_width="match_parent"
+        p1:layout_height="match_parent"
+        p1:id="@+id/tileBackground"
+        p1:alpha="0.5" />
     <ImageView
         p1:src="@drawable/icon"
         p1:layout_width="match_parent"
@@ -15,10 +21,12 @@
         p1:layout_width="match_parent"
         p1:layout_height="match_parent"
         p1:id="@+id/tileLabel"
-        p1:gravity="bottom" />
+        p1:gravity="bottom"
+        p1:textColor="@android:color/white" />
     <TextView
         p1:text="Text"
         p1:layout_width="match_parent"
         p1:layout_height="match_parent"
-        p1:id="@+id/tileNotification" />
+        p1:id="@+id/tileNotification"
+        p1:textColor="@android:color/white" />
 </FrameLayout>
