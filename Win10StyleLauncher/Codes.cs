@@ -107,7 +107,7 @@ namespace LiveTilesWidget
                 views.SetTextViewText(Resource.Id.tileNotification, Notification);
             }
             //设置点击时执行的意图
-            Intent intent = context.PackageManager.GetLaunchIntentForPackage(app.Name);
+            Intent intent = context.PackageManager.GetLaunchIntentForPackage(preference.GetString(Id + "Name", context.PackageName));
             PendingIntent pintent = PendingIntent.GetActivity(context, 0, intent, PendingIntentFlags.UpdateCurrent);
             views.SetOnClickPendingIntent(Resource.Id.tileRoot, pintent);
 

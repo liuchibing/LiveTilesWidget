@@ -19,7 +19,7 @@ namespace LiveTilesWidget
     public class AppPicker : ListActivity
     {
         protected List<AppDetail> apps;
-        private int id;
+        private int Id;
         protected override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
@@ -30,8 +30,8 @@ namespace LiveTilesWidget
             ListAdapter = new AppListAdapter(this, Resource.Layout.AppPickerItems, apps.ToArray());
 
             //从Extra中获取要进行自定义设置的AppWidgetId
-            id = Intent.GetIntExtra("id", -1);
-            if (id == -1)
+            Id = Intent.GetIntExtra("id", -1);
+            if (Id == -1)
             {
                 Finish();
             }
@@ -42,8 +42,8 @@ namespace LiveTilesWidget
             //将所选的应用信息保存到SharedPreferences中以供保存
             var preference = GetSharedPreferences("tiles", FileCreationMode.Private);
             var editor = preference.Edit();
-            editor.PutString(id + "Label", apps[position].Label);
-            editor.PutString(id + "Name", apps[position].Name);
+            editor.PutString(Id + "Label", apps[position].Label);
+            editor.PutString(Id + "Name", apps[position].Name);
             editor.Commit();
 
             //返回应用的Label
