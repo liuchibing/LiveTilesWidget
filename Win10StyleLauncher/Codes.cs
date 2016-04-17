@@ -36,13 +36,16 @@ namespace LiveTilesWidget
             PendingIntent pintent = PendingIntent.GetActivity(context, 0, intent, PendingIntentFlags.UpdateCurrent);
             views.SetOnClickPendingIntent(Resource.Id.tileRoot, pintent);
 
+            //推送appWidget更新
+            appWidgetManager.UpdateAppWidget(appWidgetIds[0], views);
+
             //将新的磁贴的ID添加到SharedPreference中
             var preference = context.GetSharedPreferences("tiles", FileCreationMode.Private);
             var editor = preference.Edit();
-            editor.PutString("Ids", preference.GetString("Ids", "") + appWidgetIds[0] + ",");
-
-            //推送appWidget更新
-            appWidgetManager.UpdateAppWidget(appWidgetIds[0], views);
+            List<string> ids = new List<string>(preference.GetStringSet("Ids", new List<string>()));
+            ids.Add(appWidgetIds[0].ToString());
+            editor.PutStringSet("Ids", ids);
+            editor.Commit();
         }
 
         /// <summary>
@@ -100,11 +103,13 @@ namespace LiveTilesWidget
             if (Notification == null)
             {
                 views.SetViewVisibility(Resource.Id.tileNotification, ViewStates.Invisible);
+                views.SetViewVisibility(Resource.Id.tileIcon, ViewStates.Visible);
             }
             else
             {
                 views.SetViewVisibility(Resource.Id.tileNotification, ViewStates.Visible);
                 views.SetTextViewText(Resource.Id.tileNotification, Notification);
+                views.SetViewVisibility(Resource.Id.tileIcon, ViewStates.Invisible);
             }
             //设置点击时执行的意图
             Intent intent = context.PackageManager.GetLaunchIntentForPackage(preference.GetString(Id + "Name", context.PackageName));

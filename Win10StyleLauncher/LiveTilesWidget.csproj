@@ -53,6 +53,7 @@
     <Compile Include="AppListAdapter.cs" />
     <Compile Include="AppPicker.cs" />
     <Compile Include="Codes.cs" />
+    <Compile Include="NotificationService.cs" />
     <Compile Include="TileSetting.cs" />
     <Compile Include="MainActivity.cs" />
     <Compile Include="NormalTileProvider.cs" />
@@ -87,7 +88,9 @@
     <None Include="Properties\AndroidManifest.xml" />
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\xml\normal_tile.xml" />
+    <AndroidResource Include="Resources\xml\normal_tile.xml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\xml\wide_tile.xml">

@@ -62,6 +62,7 @@ namespace LiveTilesWidget
             btnRefresh.Click += (sender, e) =>
             {
                 Codes.UpdateTiles(id, this, null);
+                Finish();
             };
         }
 

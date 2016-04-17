@@ -26,10 +26,26 @@ namespace LiveTilesWidget
             ContextWrapper contextWrapper = new ContextWrapper(context);
             var preference = contextWrapper.GetSharedPreferences("tiles", FileCreationMode.Private);
             //仅当磁贴ID未记录在存储中时才进行初始化
-            if (!preference.Contains(appWidgetIds[0].ToString()+"Label"))
+            if (!preference.GetStringSet("Ids", new List<string> { }).Contains(appWidgetIds[0].ToString()))
             {
                 Codes.InitializeTile(context, appWidgetManager, appWidgetIds);
             }
+        }
+
+        public override void OnDeleted(Context context, int[] appWidgetIds)
+        {
+            base.OnDeleted(context, appWidgetIds);
+
+            //删除小部件时移除记录
+            var preference = context.GetSharedPreferences("tiles", FileCreationMode.Private);
+            var editor = preference.Edit();
+            List<string> ids = new List<string>(preference.GetStringSet("Ids", new List<string> { }));
+            if (ids.Contains(appWidgetIds[0].ToString()))
+            {
+                ids.Remove(appWidgetIds[0].ToString());
+            }
+            editor.PutStringSet("Ids", ids);
+            editor.Commit();
         }
     }
 }
