@@ -106,7 +106,7 @@ namespace LiveTilesWidget
 			public const int tileLabel = 2131099657;
 			
 			// aapt resource value: 0x7f06000b
-			public const int tileNotifCount = 2131099659;
+			public const int tileNotifParent = 2131099659;
 			
 			// aapt resource value: 0x7f06000a
 			public const int tileNotification = 2131099658;

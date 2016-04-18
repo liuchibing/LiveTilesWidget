@@ -8,6 +8,7 @@ using Android.OS;
 using System.Collections.Generic;
 using Android.Graphics.Drawables;
 using Android.Util;
+using Android.Service.Notification;
 
 namespace LiveTilesWidget
 {
@@ -47,7 +48,7 @@ namespace LiveTilesWidget
                         break;
                     }
                 }
-
+                
                 var notify = new Notification.Builder(this);
                 notify.SetContentTitle("hello!");
                 notify.SetContentText("world!");

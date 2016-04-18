@@ -73,23 +73,25 @@ namespace LiveTilesWidget
         /// <summary>
         /// 刷新磁贴小部件
         /// </summary>
-        /// <param name="Id">小部件的Id</param>
+        /// <param name="id">小部件的Id</param>
         /// <param name="context">当前上下文</param>
-        /// <param name="Notification">要在磁贴上显示的最新通知，没有则为null</param>
-        public static void UpdateTiles(int Id, Context context, string Notification)
+        /// <param name="notification">要在磁贴上显示的最新通知，没有则为null</param>
+        public static void UpdateTiles(int id, Context context, object notification)
         {
             //读取记录的磁贴设置
             var preference = context.GetSharedPreferences("tiles", FileCreationMode.Private);
 
             //创建RemoteViews对象
             RemoteViews views = new RemoteViews(context.PackageName, Resource.Layout.NormalTile);
+            //清空上次残留的Notification内容
+            views.RemoveAllViews(Resource.Id.tileNotifParent);
             //设置应用名称
-            views.SetTextViewText(Resource.Id.tileLabel, preference.GetString(Id + "Label", "错误"));
+            views.SetTextViewText(Resource.Id.tileLabel, preference.GetString(id + "Label", "错误"));
             //设置图标
             AppDetail app = null;
             foreach (var item in LoadApps(context.PackageManager))
             {
-                if (item.Name == preference.GetString(Id + "Name", null))
+                if (item.Name == preference.GetString(id + "Name", null))
                 {
                     app = item;
                     break;
@@ -100,25 +102,33 @@ namespace LiveTilesWidget
                 views.SetImageViewBitmap(Resource.Id.tileIcon, ((BitmapDrawable)app.Icon).Bitmap);
             }
             //设置通知内容
-            if (Notification == null)
+            if (notification == null)
             {
                 views.SetViewVisibility(Resource.Id.tileNotification, ViewStates.Invisible);
                 views.SetViewVisibility(Resource.Id.tileIcon, ViewStates.Visible);
             }
             else
             {
-                views.SetViewVisibility(Resource.Id.tileNotification, ViewStates.Visible);
-                views.SetTextViewText(Resource.Id.tileNotification, Notification);
+                //判断通知是解析好的字符串还是直接照搬即可的RemoteViews
+                if (notification is string)
+                {
+                    views.SetViewVisibility(Resource.Id.tileNotification, ViewStates.Visible);
+                    views.SetTextViewText(Resource.Id.tileNotification, (string)notification);
+                }
+                else if (notification is Notification)
+                {
+                    views.AddView(Resource.Id.tileNotifParent, ((Notification)notification).ContentView);
+                }
                 views.SetViewVisibility(Resource.Id.tileIcon, ViewStates.Invisible);
             }
             //设置点击时执行的意图
-            Intent intent = context.PackageManager.GetLaunchIntentForPackage(preference.GetString(Id + "Name", context.PackageName));
+            Intent intent = context.PackageManager.GetLaunchIntentForPackage(preference.GetString(id + "Name", context.PackageName));
             PendingIntent pintent = PendingIntent.GetActivity(context, 0, intent, PendingIntentFlags.UpdateCurrent);
             views.SetOnClickPendingIntent(Resource.Id.tileRoot, pintent);
 
             //推送更新
             AppWidgetManager manager = AppWidgetManager.GetInstance(context);
-            manager.UpdateAppWidget(Id, views);
+            manager.UpdateAppWidget(id, views);
         }
     }
 }

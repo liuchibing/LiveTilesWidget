@@ -36,14 +36,18 @@ namespace LiveTilesWidget
                 //是否属于已开启显示通知功能的磁贴的应用
                 if (preference.GetBoolean(item + "ShowNotif", true) && sbn.PackageName == preference.GetString(item + "Name", ""))
                 {
-                    //通过枚举来获得通知内容
-                    //View v = sbn.Notification.ContentView.Apply(this, new LinearLayout(this));
-                    string text = "";
-                    text = sbn.Notification.Extras.GetString(Notification.ExtraTitle, "错误") + '\n' + sbn.Notification.Extras.GetString(Notification.ExtraText, "错误");
-                    //EnumGroupViews(v, ref text);
-
-                    //推送动态磁贴小部件更新
-                    Codes.UpdateTiles(Convert.ToInt32(item), this, text);
+                    //判断收到的通知是否是可解析的标准格式
+                    if (sbn.Notification.Extras.GetString(Notification.ExtraTitle) != null)
+                    {
+                        string text = sbn.Notification.Extras.GetString(Notification.ExtraTitle, "错误") + '\n' + sbn.Notification.Extras.GetString(Notification.ExtraText, "错误");
+                        //推送动态磁贴小部件更新
+                        Codes.UpdateTiles(Convert.ToInt32(item), this, text);
+                    }
+                    else
+                    {
+                        //否则直接照搬通知内容,推送小部件更新
+                        Codes.UpdateTiles(Convert.ToInt32(item), this, sbn.Notification);
+                    }
                 }
             }
         }

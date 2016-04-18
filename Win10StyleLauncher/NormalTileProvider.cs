@@ -30,6 +30,10 @@ namespace LiveTilesWidget
             {
                 Codes.InitializeTile(context, appWidgetManager, appWidgetIds);
             }
+            else
+            {
+                Codes.UpdateTiles(appWidgetIds[0], context, null);
+            }
         }
 
         public override void OnDeleted(Context context, int[] appWidgetIds)
