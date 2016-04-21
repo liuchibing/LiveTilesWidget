@@ -12,6 +12,9 @@ using Android.Widget;
 using Android.Appwidget;
 using Android.Content.PM;
 using Android.Graphics.Drawables;
+using Android.Graphics;
+using System.Net;
+using System.Threading.Tasks;
 
 namespace LiveTilesWidget
 {
@@ -129,6 +132,18 @@ namespace LiveTilesWidget
             //推送更新
             AppWidgetManager manager = AppWidgetManager.GetInstance(context);
             manager.UpdateAppWidget(id, views);
+        }
+
+        /// <summary>
+        /// 获取今天的必应首页图片
+        /// </summary>
+        /// <returns></returns>
+        public static async Task<Bitmap> GetBingImage()
+        {
+            WebClient wc = new WebClient();
+            byte[] buffer = await wc.DownloadDataTaskAsync(new Uri(@"http://area.sinaapp.com/bingImg"));
+            Bitmap img = await BitmapFactory.DecodeByteArrayAsync(buffer, 0, buffer.Length);
+            return img;
         }
     }
 }

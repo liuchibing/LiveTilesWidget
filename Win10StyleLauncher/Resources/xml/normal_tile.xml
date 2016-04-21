@@ -4,5 +4,6 @@
   android:minWidth = "40dp"
   android:minHeight = "40dp"
   android:initialLayout = "@layout/NormalTile"
+  android:resizeMode="horizontal|vertical"
   >
 </appwidget-provider>

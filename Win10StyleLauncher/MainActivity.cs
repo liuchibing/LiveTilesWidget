@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using Android.Graphics.Drawables;
 using Android.Util;
 using Android.Service.Notification;
+using Android.Graphics;
 
 namespace LiveTilesWidget
 {
@@ -48,9 +49,9 @@ namespace LiveTilesWidget
                         break;
                     }
                 }
-                
+
                 var notify = new Notification.Builder(this);
-                notify.SetContentTitle("hello!");
+                notify.SetContentTitle((Servicerunning) ? "Hello!" : "error");
                 notify.SetContentText("world!");
                 notify.SetTicker((Servicerunning) ? "test" : "error");
                 notify.SetContentInfo("test info");
@@ -59,8 +60,17 @@ namespace LiveTilesWidget
                 ((NotificationManager)GetSystemService(NotificationService)).Notify(1, notify.Build());
             };
 
-            //启动通知监视服务
-            //StartService(new Intent(this, typeof(NotificationService)));
+            //将壁纸设置为今天的必应首页图片
+            FindViewById<Button>(Resource.Id.btnSetWallpaper).Click += async (sender, e) =>
+             {
+                 WallpaperManager wall = WallpaperManager.GetInstance(this);
+                 Bitmap img = await Codes.GetBingImage();
+                 wall.SetBitmap(img);
+             };
+
+            //获取壁纸的主色调
+
+
             Log.Debug("main", "created");
         }
 
