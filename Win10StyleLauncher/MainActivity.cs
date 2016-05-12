@@ -10,6 +10,8 @@ using Android.Graphics.Drawables;
 using Android.Util;
 using Android.Service.Notification;
 using Android.Graphics;
+using System.Threading;
+using Android.Support.V7.Graphics;
 
 namespace LiveTilesWidget
 {
@@ -61,15 +63,12 @@ namespace LiveTilesWidget
             };
 
             //将壁纸设置为今天的必应首页图片
-            FindViewById<Button>(Resource.Id.btnSetWallpaper).Click += async (sender, e) =>
+            FindViewById<Button>(Resource.Id.btnSetWallpaper).Click += (sender, e) =>
              {
-                 WallpaperManager wall = WallpaperManager.GetInstance(this);
-                 Bitmap img = await Codes.GetBingImage();
-                 wall.SetBitmap(img);
+                 StartService(new Intent(this, typeof(SetWallpaper)));
              };
 
             //获取壁纸的主色调
-
 
             Log.Debug("main", "created");
         }
