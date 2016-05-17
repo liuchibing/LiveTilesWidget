@@ -8,7 +8,8 @@
         p1:layout_width="match_parent"
         p1:layout_height="match_parent"
         p1:id="@+id/tileBackground"
-        p1:alpha="0.5" />
+        p1:alpha="0.5"
+        p1:scaleType="fitXY" />
     <ImageView
         p1:src="@drawable/icon"
         p1:layout_width="@android:dimen/app_icon_size"

@@ -14,6 +14,9 @@ using Android.Util;
 
 namespace LiveTilesWidget
 {
+    /// <summary>
+    /// 将壁纸设置为必应美图的服务
+    /// </summary>
     [Service]
     public class SetWallpaper : IntentService
     {

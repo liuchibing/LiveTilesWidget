@@ -68,8 +68,6 @@ namespace LiveTilesWidget
                  StartService(new Intent(this, typeof(SetWallpaper)));
              };
 
-            //获取壁纸的主色调
-
             Log.Debug("main", "created");
         }
 
@@ -110,7 +108,7 @@ namespace LiveTilesWidget
                 app.Icon = ApplicationInfo.LoadIcon(PackageManager);//设置默认图标
                 foreach (var item in apps)//尝试寻找正确的图标
                 {
-                    if (item.Name == preference.GetString(id + "Name", null))
+                    if (item.Name == preference.GetString(id + "Name", null) && item.Label == preference.GetString(id + "Label", null))
                     {
                         app.Icon = item.Icon;
                         break;

@@ -9,10 +9,11 @@ using Android.OS;
 using Android.Runtime;
 using Android.Views;
 using Android.Widget;
+using Android.Appwidget;
 
 namespace LiveTilesWidget
 {
-    [Activity(Label = "设置磁贴小部件")]
+    [Activity(Label = "设置磁贴小部件",Name ="com.LiveTilesWidget.TileSetting")]
     public class TileSetting : Activity
     {
         int count = 1;
@@ -21,18 +22,29 @@ namespace LiveTilesWidget
         {
             base.OnCreate(savedInstanceState);
 
+            //从Extra中获取要进行自定义设置的AppWidgetId
+            var id = Intent.GetIntExtra("id", -1);
+            if (id == -1)
+            {
+                //若没有传入id信息则尝试以初始化过程的方式取得id，否则退出
+                id = Intent.GetIntExtra(AppWidgetManager.ExtraAppwidgetId, -1);
+                if (id == -1)
+                {
+                    Finish();
+                }
+            }
+            //防止意外退出
+            Intent i = new Intent();
+            i.PutExtra(AppWidgetManager.ExtraAppwidgetId, id);
+            SetResult(Result.Canceled,i);
+
             SetContentView(Resource.Layout.TileSettings);
 
             Button btnChooseApp = FindViewById<Button>(Resource.Id.btnChooseApp);
             CheckBox checkShowNotif = FindViewById<CheckBox>(Resource.Id.checkShowNotif);
             Button btnRefresh = FindViewById<Button>(Resource.Id.btnRefresh);
 
-            //从Extra中获取要进行自定义设置的AppWidgetId
-            var id = Intent.GetIntExtra("id", -1);
-            if (id == -1)
-            {
-                Finish();//若没有传入id信息则退出
-            }
+
 
             //获取存储的磁贴信息
             var preference = GetSharedPreferences("tiles", FileCreationMode.Private);
@@ -62,6 +74,9 @@ namespace LiveTilesWidget
             btnRefresh.Click += (sender, e) =>
             {
                 Codes.UpdateTiles(id, this, null);
+                Intent result = new Intent();
+                i.PutExtra(AppWidgetManager.ExtraAppwidgetId, id);
+                SetResult(Result.Ok, result);
                 Finish();
             };
         }

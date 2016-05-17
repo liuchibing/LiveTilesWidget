@@ -15,6 +15,8 @@ using Android.Graphics.Drawables;
 using Android.Graphics;
 using System.Net;
 using System.Threading.Tasks;
+using Android.Support.V7.Graphics;
+using static Android.Support.V7.Graphics.Palette;
 
 namespace LiveTilesWidget
 {
@@ -28,11 +30,19 @@ namespace LiveTilesWidget
         /// <param name="appWidgetIds"></param>
         public static void InitializeTile(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds)
         {
+            //获取SharedPreference
+            var preference = context.GetSharedPreferences("tiles", FileCreationMode.Private);
+            var editor = preference.Edit();
+
             //创建RemoteViews对象，并设置初始化值
             RemoteViews views = new RemoteViews(context.PackageName, Resource.Layout.NormalTile);
             //设置内容
             views.SetTextViewText(Resource.Id.tileLabel, "设置此磁贴" + appWidgetIds[0]);
             views.SetViewVisibility(Resource.Id.tileNotification, ViewStates.Invisible);
+            //设置背景色
+            int color = preference.GetInt("AutoTileColor", 0x000000);
+            Bitmap bitmap = Bitmap.CreateBitmap(new int[] { color }, 1, 1, Bitmap.Config.Argb8888);
+            views.SetImageViewBitmap(Resource.Id.tileBackground, bitmap);
             //设置点击时执行的意图
             Intent intent = new Intent(context, typeof(TileSetting));
             intent.PutExtra("id", appWidgetIds[0]);//将Id传给Activity以便进行设置
@@ -43,8 +53,6 @@ namespace LiveTilesWidget
             appWidgetManager.UpdateAppWidget(appWidgetIds[0], views);
 
             //将新的磁贴的ID添加到SharedPreference中
-            var preference = context.GetSharedPreferences("tiles", FileCreationMode.Private);
-            var editor = preference.Edit();
             List<string> ids = new List<string>(preference.GetStringSet("Ids", new List<string>()));
             ids.Add(appWidgetIds[0].ToString());
             editor.PutStringSet("Ids", ids);
@@ -94,7 +102,7 @@ namespace LiveTilesWidget
             AppDetail app = null;
             foreach (var item in LoadApps(context.PackageManager))
             {
-                if (item.Name == preference.GetString(id + "Name", null))
+                if (item.Name == preference.GetString(id + "Name", null) && item.Label == preference.GetString(id + "Label", null))
                 {
                     app = item;
                     break;
@@ -103,6 +111,13 @@ namespace LiveTilesWidget
             if (app != null)
             {
                 views.SetImageViewBitmap(Resource.Id.tileIcon, ((BitmapDrawable)app.Icon).Bitmap);
+            }
+            //设置背景色
+            if (preference.GetBoolean(id + "AutoTileColor", true))
+            {
+                int color = preference.GetInt("AutoTileColor", 0x000000);
+                Bitmap bitmap = Bitmap.CreateBitmap(new int[] { color }, 1, 1, Bitmap.Config.Argb8888);
+                views.SetImageViewBitmap(Resource.Id.tileBackground, bitmap);
             }
             //设置通知内容
             if (notification == null)
@@ -144,6 +159,27 @@ namespace LiveTilesWidget
             byte[] buffer = await wc.DownloadDataTaskAsync(new Uri(@"http://area.sinaapp.com/bingImg"));
             Bitmap img = await BitmapFactory.DecodeByteArrayAsync(buffer, 0, buffer.Length);
             return img;
+        }
+
+        /// <summary>
+        /// 获取Palette中出现最多的颜色
+        /// </summary>
+        /// <param name="palette"></param>
+        /// <returns></returns>
+        public static int GetMainColor(Palette palette)
+        {
+            var swatches = palette.Swatches;
+            int max = swatches[0].Population;
+            int color = swatches[0].Rgb;
+            foreach (var item in swatches)
+            {
+                if (item.Population > max)
+                {
+                    max = item.Population;
+                    color = item.Rgb;
+                }
+            }
+            return color;
         }
     }
 }
