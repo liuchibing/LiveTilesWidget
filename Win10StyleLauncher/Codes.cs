@@ -164,19 +164,25 @@ namespace LiveTilesWidget
         /// <summary>
         /// 获取Palette中出现最多的颜色
         /// </summary>
-        /// <param name="palette"></param>
+        /// <param name="swatches">要分析的palette的swatches属性</param>
         /// <returns></returns>
-        public static int GetMainColor(Palette palette)
+        public static int GetMainColor(IList<Swatch> swatches)
         {
-            var swatches = palette.Swatches;
-            int max = swatches[0].Population;
-            int color = swatches[0].Rgb;
+            int max = -1, color = -1;
+            if (swatches[0] != null)
+            {
+                max = swatches[0].Population;
+                color = swatches[0].Rgb;
+            }
             foreach (var item in swatches)
             {
-                if (item.Population > max)
+                if (item != null)
                 {
-                    max = item.Population;
-                    color = item.Rgb;
+                    if (item.Population > max)
+                    {
+                        max = item.Population;
+                        color = item.Rgb;
+                    }
                 }
             }
             return color;

@@ -12,6 +12,7 @@ using Android.Widget;
 using Android.Support.V7.Graphics;
 using Android.Graphics.Drawables;
 using Android.Util;
+using static Android.Support.V7.Graphics.Palette;
 //using static Android.Support.V7.Graphics.Palette;
 
 namespace LiveTilesWidget
@@ -36,9 +37,28 @@ namespace LiveTilesWidget
             var editor = preference.Edit();
 
             //将壁纸主色调写入存储
-            editor.PutInt("AutoTileColor", palette.GetLightVibrantColor(0x000000));
+            int color;
+            color = palette.GetLightVibrantColor(-1);
+            if (color == -1)
+            {
+                color = Codes.GetMainColor(new List<Swatch>()
+                {
+                    palette.LightVibrantSwatch,
+                    palette.LightMutedSwatch,
+                    palette.DarkMutedSwatch,
+                    palette.DarkVibrantSwatch,
+                    palette.VibrantSwatch,
+                    palette.MutedSwatch
+                });
+                //
+                if (color == -1)
+                {
+                    color = Codes.GetMainColor(palette.Swatches);
+                }
+            }
+            editor.PutInt("AutoTileColor", color);
             editor.Commit();
-            
+
             //更新所有磁贴
             foreach (var item in preference.GetStringSet("Ids", new List<string>()))
             {

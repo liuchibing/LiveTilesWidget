@@ -44,8 +44,6 @@ namespace LiveTilesWidget
             CheckBox checkShowNotif = FindViewById<CheckBox>(Resource.Id.checkShowNotif);
             Button btnRefresh = FindViewById<Button>(Resource.Id.btnRefresh);
 
-
-
             //获取存储的磁贴信息
             var preference = GetSharedPreferences("tiles", FileCreationMode.Private);
             var editor = preference.Edit();
