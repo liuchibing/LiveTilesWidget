@@ -60,9 +60,10 @@ namespace LiveTilesWidget
             editor.Commit();
 
             //更新所有磁贴
-            foreach (var item in preference.GetStringSet("Ids", new List<string>()))
+            TilesPreferenceEditor editorTiles = new TilesPreferenceEditor(context);
+            foreach (var item in editorTiles.Tiles)
             {
-                Codes.UpdateTiles(Convert.ToInt32(item), context, null);
+                Codes.UpdateTiles(item.Id, context, null);
             }
         }
     }

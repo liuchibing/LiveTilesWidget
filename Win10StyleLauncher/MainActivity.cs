@@ -12,11 +12,12 @@ using Android.Service.Notification;
 using Android.Graphics;
 using System.Threading;
 using Android.Support.V7.Graphics;
+using System.Threading.Tasks;
 
 namespace LiveTilesWidget
 {
     [Activity(Label = "动态磁贴10", MainLauncher = true, Icon = "@drawable/icon")]
-    public class MainActivity : Activity
+    public class MainActivity : Activity, IDialogInterfaceOnClickListener
     {
         int count = 1;
 
@@ -26,6 +27,28 @@ namespace LiveTilesWidget
 
             // Set our view from the "main" layout resource
             SetContentView(Resource.Layout.Main);
+
+            //获取正在运行的服务，检查NotificationService是否正在运行
+            bool Servicerunning = false;
+            ActivityManager manager = (ActivityManager)GetSystemService(ActivityService);
+            foreach (var item in manager.GetRunningServices(int.MaxValue))
+            {
+                Log.Debug("RunningService", item.Service.PackageName);
+                if (item.Service.PackageName == PackageName)
+                {
+                    Servicerunning = true;
+                    break;
+                }
+            }
+            if (!Servicerunning)
+            {
+                AlertDialog.Builder dialog = new AlertDialog.Builder(this);
+                dialog.SetIcon(Resource.Drawable.Icon);
+                dialog.SetTitle("通知探测服务未运行");
+                dialog.SetMessage("请在弹出的界面中打开\"动态磁贴10通知探测服务\"的开关，并点击弹出的安全提示中的确认按钮");
+                dialog.SetPositiveButton("前往设置", this);
+                dialog.Show();
+            }
 
             //清除所有preference数据
             FindViewById<Button>(Resource.Id.btnReset).Click += (sender, e) =>
@@ -39,18 +62,7 @@ namespace LiveTilesWidget
             //发送通知测试
             FindViewById<Button>(Resource.Id.btnNotif).Click += (sender, e) =>
             {
-                //获取正在运行的服务，检查NotificationService是否正在运行
-                bool Servicerunning = false;
-                ActivityManager manager = (ActivityManager)GetSystemService(ActivityService);
-                foreach (var item in manager.GetRunningServices(int.MaxValue))
-                {
-                    Log.Debug("RunningService", item.Service.PackageName);
-                    if (item.Service.PackageName == PackageName)
-                    {
-                        Servicerunning = true;
-                        break;
-                    }
-                }
+
 
                 var notify = new Notification.Builder(this);
                 notify.SetContentTitle((Servicerunning) ? "Hello!" : "error");
@@ -90,40 +102,38 @@ namespace LiveTilesWidget
         /// <summary>
         /// 把所有记录的磁贴加载到列表中
         /// </summary>
-        private void LoadTiles()
+        private async void LoadTiles()
         {
-            var preference = GetSharedPreferences("tiles", FileCreationMode.Private);
-            var editor = preference.Edit();
-
             ListView listTiles = FindViewById<ListView>(Resource.Id.listTiles);
-
-            //加载所有记录的磁贴
-            List<AppDetail> apps = Codes.LoadApps(PackageManager);
-            List<string> ids = new List<string>(preference.GetStringSet("Ids", new List<string> { }));
-            List<AppDetail> tiles = new List<AppDetail>();
-            foreach (var id in ids)
+            TilesPreferenceEditor editor = null;
+            await Task.Run(() =>
             {
-                AppDetail app = new AppDetail();
-                app.Label = preference.GetString(id + "Label", "未设置");
-                app.Icon = ApplicationInfo.LoadIcon(PackageManager);//设置默认图标
-                foreach (var item in apps)//尝试寻找正确的图标
+                //加载所有记录的磁贴
+                editor = new TilesPreferenceEditor(this);
+                //加载图标
+                foreach (var item in editor.Tiles)
                 {
-                    if (item.Name == preference.GetString(id + "Name", null) && item.Label == preference.GetString(id + "Label", null))
-                    {
-                        app.Icon = item.Icon;
-                        break;
-                    }
+                    item.LoadIcon(this);
                 }
-                app.Name = id;
-                tiles.Add(app);
-            }
-            listTiles.Adapter = new AppListAdapter(this, Resource.Layout.AppPickerItems, tiles.ToArray());
+            });
+
+            listTiles.Adapter = new AppListAdapter(this, Resource.Layout.AppPickerItems, editor.Tiles.ToArray());
             listTiles.ItemClick += (sender, e) =>
             {
                 Intent intent = new Intent(this, typeof(TileSetting));
-                intent.PutExtra("id", Convert.ToInt32(tiles[e.Position].Name));
+                intent.PutExtra("id", editor.Tiles[e.Position].Id);
                 StartActivity(intent);
             };
+        }
+
+        /// <summary>
+        /// 点击对话框中的前往按钮时打开NotificationListenerService的系统设置界面
+        /// </summary>
+        /// <param name="dialog"></param>
+        /// <param name="which"></param>
+        public void OnClick(IDialogInterface dialog, int which)
+        {
+            StartActivity(new Intent("android.settings.ACTION_NOTIFICATION_LISTENER_SETTINGS"));
         }
     }
 }

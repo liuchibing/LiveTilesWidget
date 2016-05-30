@@ -66,14 +66,17 @@ namespace LiveTilesWidget
 			// aapt resource value: 0x7f060004
 			public const int btnNotif = 2131099652;
 			
-			// aapt resource value: 0x7f060012
-			public const int btnRefresh = 2131099666;
+			// aapt resource value: 0x7f060013
+			public const int btnRefresh = 2131099667;
 			
 			// aapt resource value: 0x7f060003
 			public const int btnReset = 2131099651;
 			
 			// aapt resource value: 0x7f060005
 			public const int btnSetWallpaper = 2131099653;
+			
+			// aapt resource value: 0x7f060012
+			public const int checkAutoColor = 2131099666;
 			
 			// aapt resource value: 0x7f060010
 			public const int checkShowNotif = 2131099664;

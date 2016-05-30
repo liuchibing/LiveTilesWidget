@@ -33,8 +33,13 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/textView3" />
+    <CheckBox
+        android:text="自动从壁纸中获取颜色"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/checkAutoColor" />
     <Button
-        android:text="立即刷新磁贴"
+        android:text="应用更改"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/btnRefresh" />

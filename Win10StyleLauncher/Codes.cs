@@ -30,9 +30,7 @@ namespace LiveTilesWidget
         /// <param name="appWidgetIds"></param>
         public static void InitializeTile(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds)
         {
-            //获取SharedPreference
             var preference = context.GetSharedPreferences("tiles", FileCreationMode.Private);
-            var editor = preference.Edit();
 
             //创建RemoteViews对象，并设置初始化值
             RemoteViews views = new RemoteViews(context.PackageName, Resource.Layout.NormalTile);
@@ -45,18 +43,12 @@ namespace LiveTilesWidget
             views.SetImageViewBitmap(Resource.Id.tileBackground, bitmap);
             //设置点击时执行的意图
             Intent intent = new Intent(context, typeof(TileSetting));
-            intent.PutExtra("id", appWidgetIds[0]);//将Id传给Activity以便进行设置
+            intent.PutExtra(AppWidgetManager.ExtraAppwidgetId, appWidgetIds[0]);//将Id传给Activity以便进行设置
             PendingIntent pintent = PendingIntent.GetActivity(context, 0, intent, PendingIntentFlags.UpdateCurrent);
             views.SetOnClickPendingIntent(Resource.Id.tileRoot, pintent);
 
             //推送appWidget更新
             appWidgetManager.UpdateAppWidget(appWidgetIds[0], views);
-
-            //将新的磁贴的ID添加到SharedPreference中
-            List<string> ids = new List<string>(preference.GetStringSet("Ids", new List<string>()));
-            ids.Add(appWidgetIds[0].ToString());
-            editor.PutStringSet("Ids", ids);
-            editor.Commit();
         }
 
         /// <summary>
@@ -90,30 +82,22 @@ namespace LiveTilesWidget
         public static void UpdateTiles(int id, Context context, object notification)
         {
             //读取记录的磁贴设置
+            TilesPreferenceEditor editor = new TilesPreferenceEditor(context);
+            AppDetail tile = editor.GetTileById(id);
             var preference = context.GetSharedPreferences("tiles", FileCreationMode.Private);
 
             //创建RemoteViews对象
             RemoteViews views = new RemoteViews(context.PackageName, Resource.Layout.NormalTile);
             //清空上次残留的Notification内容
             views.RemoveAllViews(Resource.Id.tileNotifParent);
+            views.SetTextViewText(Resource.Id.tileNotification, "");
             //设置应用名称
-            views.SetTextViewText(Resource.Id.tileLabel, preference.GetString(id + "Label", "错误"));
+            views.SetTextViewText(Resource.Id.tileLabel, tile.Label);
             //设置图标
-            AppDetail app = null;
-            foreach (var item in LoadApps(context.PackageManager))
-            {
-                if (item.Name == preference.GetString(id + "Name", null) && item.Label == preference.GetString(id + "Label", null))
-                {
-                    app = item;
-                    break;
-                }
-            }
-            if (app != null)
-            {
-                views.SetImageViewBitmap(Resource.Id.tileIcon, ((BitmapDrawable)app.Icon).Bitmap);
-            }
+            tile.LoadIcon(context);
+            views.SetImageViewBitmap(Resource.Id.tileIcon, ((BitmapDrawable)tile.Icon).Bitmap);
             //设置背景色
-            if (preference.GetBoolean(id + "AutoTileColor", true))
+            if (tile.AutoTileColor)
             {
                 int color = preference.GetInt("AutoTileColor", 0x000000);
                 Bitmap bitmap = Bitmap.CreateBitmap(new int[] { color }, 1, 1, Bitmap.Config.Argb8888);
@@ -136,11 +120,12 @@ namespace LiveTilesWidget
                 else if (notification is Notification)
                 {
                     views.AddView(Resource.Id.tileNotifParent, ((Notification)notification).ContentView);
+                    views.SetViewVisibility(Resource.Id.tileNotification, ViewStates.Invisible);
                 }
                 views.SetViewVisibility(Resource.Id.tileIcon, ViewStates.Invisible);
             }
             //设置点击时执行的意图
-            Intent intent = context.PackageManager.GetLaunchIntentForPackage(preference.GetString(id + "Name", context.PackageName));
+            Intent intent = context.PackageManager.GetLaunchIntentForPackage(tile.Name);
             PendingIntent pintent = PendingIntent.GetActivity(context, 0, intent, PendingIntentFlags.UpdateCurrent);
             views.SetOnClickPendingIntent(Resource.Id.tileRoot, pintent);
 

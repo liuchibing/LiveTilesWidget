@@ -13,7 +13,7 @@ using Android.Appwidget;
 
 namespace LiveTilesWidget
 {
-    [BroadcastReceiver(Label = "Normal Live Tile")]
+    [BroadcastReceiver(Label = "动态磁贴")]
     [IntentFilter(new string[] { "android.appwidget.action.APPWIDGET_UPDATE" })]
     [MetaData("android.appwidget.provider", Resource = "@xml/normal_tile")]
     public class NormalTileProvider : AppWidgetProvider
@@ -23,10 +23,9 @@ namespace LiveTilesWidget
             base.OnUpdate(context, appWidgetManager, appWidgetIds);
 
             //读取磁贴信息的存储
-            ContextWrapper contextWrapper = new ContextWrapper(context);
-            var preference = contextWrapper.GetSharedPreferences("tiles", FileCreationMode.Private);
+            TilesPreferenceEditor editor = new TilesPreferenceEditor(context);
             //仅当磁贴ID未记录在存储中时才进行初始化
-            if (!preference.GetStringSet("Ids", new List<string> { }).Contains(appWidgetIds[0].ToString()))
+            if (editor.GetTileById(appWidgetIds[0]) == null)
             {
                 Codes.InitializeTile(context, appWidgetManager, appWidgetIds);
             }
@@ -41,15 +40,12 @@ namespace LiveTilesWidget
             base.OnDeleted(context, appWidgetIds);
 
             //删除小部件时移除记录
-            var preference = context.GetSharedPreferences("tiles", FileCreationMode.Private);
-            var editor = preference.Edit();
-            List<string> ids = new List<string>(preference.GetStringSet("Ids", new List<string> { }));
-            if (ids.Contains(appWidgetIds[0].ToString()))
+            TilesPreferenceEditor editor = new TilesPreferenceEditor(context);
+            if (editor.GetTileById(appWidgetIds[0]) != null)
             {
-                ids.Remove(appWidgetIds[0].ToString());
+                editor.Tiles.Remove(editor.GetTileById(appWidgetIds[0]));
+                editor.CommitChanges();
             }
-            editor.PutStringSet("Ids", ids);
-            editor.Commit();
         }
     }
 }

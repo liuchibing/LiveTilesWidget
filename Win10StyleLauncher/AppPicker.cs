@@ -39,16 +39,17 @@ namespace LiveTilesWidget
 
         protected override void OnListItemClick(ListView l, View v, int position, long id)
         {
-            //将所选的应用信息保存到SharedPreferences中以供保存
-            var preference = GetSharedPreferences("tiles", FileCreationMode.Private);
-            var editor = preference.Edit();
-            editor.PutString(Id + "Label", apps[position].Label);
-            editor.PutString(Id + "Name", apps[position].Name);
-            editor.Commit();
+            ////将所选的应用信息保存到SharedPreferences中以供保存
+            //var preference = GetSharedPreferences("tiles", FileCreationMode.Private);
+            //var editor = preference.Edit();
+            //editor.PutString(Id + "Label", apps[position].Label);
+            //editor.PutString(Id + "Name", apps[position].Name);
+            //editor.Commit();
 
-            //返回应用的Label
+            //返回应用的Label、Name
             Intent i = new Intent();
             i.PutExtra("Label", apps[position].Label);
+            i.PutExtra("Name", apps[position].Name);
             SetResult(Result.Ok, i);
             Finish();
             //Intent intent = PackageManager.GetLaunchIntentForPackage(apps[position].Name);
