@@ -18,9 +18,10 @@ namespace LiveTilesWidget
     {
         int count = 1;
         //标记此次运行是否是初始化过程(Configuration Activity)
-        bool isInitialize = false;
+        private bool isInitialize = false;
         //当前正在设置的磁贴的实例对象
-        AppDetail tile;
+        private AppDetail tile;
+        private TilesPreferenceEditor editor;
 
         protected override void OnCreate(Bundle savedInstanceState)
         {
@@ -51,7 +52,7 @@ namespace LiveTilesWidget
             Button btnRefresh = FindViewById<Button>(Resource.Id.btnRefresh);
 
             //获取存储的磁贴信息
-            TilesPreferenceEditor editor = new TilesPreferenceEditor(this);
+            editor = new TilesPreferenceEditor(this);
 
             if (isInitialize)
             {
@@ -65,11 +66,19 @@ namespace LiveTilesWidget
             else
             {
                 tile = editor.GetTileById(id);
-                //设置选择应用按钮的文字为存储记录中此磁贴当前指向的应用
-                btnChooseApp.Text = tile.Label;
-                //设置是否允许显示通知选择框的状态为存储记录中此磁贴当前是否允许显示通知的状态
-                checkShowNotif.Checked = tile.ShowNotification;
-                checkAutoColor.Checked = tile.AutoTileColor;
+                if (tile == null)
+                {
+                    Finish();
+                }
+                try
+                {
+                    //设置选择应用按钮的文字为存储记录中此磁贴当前指向的应用
+                    btnChooseApp.Text = tile.Label;
+                    //设置是否允许显示通知选择框的状态为存储记录中此磁贴当前是否允许显示通知的状态
+                    checkShowNotif.Checked = tile.ShowNotification;
+                    checkAutoColor.Checked = tile.AutoTileColor;
+                }
+                catch { }
             }
 
             //点击按钮时跳转到选择应用的Activity
@@ -121,6 +130,45 @@ namespace LiveTilesWidget
                 case 1://颜色选择界面的请求码
                     break;
             }
+        }
+
+        public override bool OnCreateOptionsMenu(IMenu menu)
+        {
+            if (!isInitialize)
+            {
+                var option = menu.Add(0, 0, 0, "Debug Delete");
+                option.SetShowAsAction(ShowAsAction.CollapseActionView);
+            }
+
+            return base.OnCreateOptionsMenu(menu);
+        }
+
+        public override bool OnMenuItemSelected(int featureId, IMenuItem item)
+        {
+            switch (item.ItemId)
+            {
+                case 0://Debug Delete
+                    AlertDialog.Builder dialog = new AlertDialog.Builder(this);
+                    dialog.SetIcon(Resource.Drawable.Icon);
+                    dialog.SetTitle("确定重置？");
+                    dialog.SetMessage("此功能仅当在开发过程中使用，请慎重。");
+                    dialog.SetCancelable(true);
+                    dialog.SetPositiveButton("确定", (sender, e) =>
+                    {
+                        //清除当前磁贴的数据
+                        if (!isInitialize)
+                        {
+                            editor.Tiles.Remove(tile);
+                            editor.CommitChanges();
+                        }
+                        Finish();
+                    });
+                    dialog.SetNegativeButton("取消", (sender, e) => { });
+                    dialog.Show();
+                    break;
+            }
+
+            return base.OnMenuItemSelected(featureId, item);
         }
     }
 }

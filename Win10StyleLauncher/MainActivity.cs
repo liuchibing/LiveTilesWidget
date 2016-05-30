@@ -45,40 +45,10 @@ namespace LiveTilesWidget
                 AlertDialog.Builder dialog = new AlertDialog.Builder(this);
                 dialog.SetIcon(Resource.Drawable.Icon);
                 dialog.SetTitle("通知探测服务未运行");
-                dialog.SetMessage("请在弹出的界面中打开\"动态磁贴10通知探测服务\"的开关，并点击弹出的安全提示中的确认按钮");
+                dialog.SetMessage("请在弹出的界面中打开\"动态磁贴10通知探测服务\"的开关，并点击弹出的安全提示中的允许按钮");
                 dialog.SetPositiveButton("前往设置", this);
                 dialog.Show();
             }
-
-            //清除所有preference数据
-            FindViewById<Button>(Resource.Id.btnReset).Click += (sender, e) =>
-            {
-                var preference = GetSharedPreferences("tiles", FileCreationMode.Private);
-                var editor = preference.Edit();
-                editor.Clear();
-                editor.Commit();
-            };
-
-            //发送通知测试
-            FindViewById<Button>(Resource.Id.btnNotif).Click += (sender, e) =>
-            {
-
-
-                var notify = new Notification.Builder(this);
-                notify.SetContentTitle((Servicerunning) ? "Hello!" : "error");
-                notify.SetContentText("world!");
-                notify.SetTicker((Servicerunning) ? "test" : "error");
-                notify.SetContentInfo("test info");
-                notify.SetDefaults(NotificationDefaults.Sound);
-                notify.SetSmallIcon(Resource.Drawable.Icon);
-                ((NotificationManager)GetSystemService(NotificationService)).Notify(1, notify.Build());
-            };
-
-            //将壁纸设置为今天的必应首页图片
-            FindViewById<Button>(Resource.Id.btnSetWallpaper).Click += (sender, e) =>
-             {
-                 StartService(new Intent(this, typeof(SetWallpaper)));
-             };
 
             Log.Debug("main", "created");
         }
@@ -105,6 +75,7 @@ namespace LiveTilesWidget
         private async void LoadTiles()
         {
             ListView listTiles = FindViewById<ListView>(Resource.Id.listTiles);
+            listTiles.Visibility = ViewStates.Invisible;
             TilesPreferenceEditor editor = null;
             await Task.Run(() =>
             {
@@ -117,13 +88,17 @@ namespace LiveTilesWidget
                 }
             });
 
-            listTiles.Adapter = new AppListAdapter(this, Resource.Layout.AppPickerItems, editor.Tiles.ToArray());
-            listTiles.ItemClick += (sender, e) =>
+            if (editor != null && editor.Tiles.Count != 0)
             {
-                Intent intent = new Intent(this, typeof(TileSetting));
-                intent.PutExtra("id", editor.Tiles[e.Position].Id);
-                StartActivity(intent);
-            };
+                listTiles.Adapter = new AppListAdapter(this, Resource.Layout.AppPickerItems, editor.Tiles.ToArray());
+                listTiles.ItemClick += (sender, e) =>
+                {
+                    Intent intent = new Intent(this, typeof(TileSetting));
+                    intent.PutExtra("id", editor.Tiles[e.Position].Id);
+                    StartActivity(intent);
+                };
+                listTiles.Visibility = ViewStates.Visible;
+            }
         }
 
         /// <summary>
@@ -134,6 +109,58 @@ namespace LiveTilesWidget
         public void OnClick(IDialogInterface dialog, int which)
         {
             StartActivity(new Intent("android.settings.ACTION_NOTIFICATION_LISTENER_SETTINGS"));
+        }
+
+        public override bool OnCreateOptionsMenu(IMenu menu)
+        {
+            var option1 = menu.Add(0, 0, 0, "设置壁纸为必应美图");
+            option1.SetShowAsAction(ShowAsAction.CollapseActionView);
+            var option2 = menu.Add(0, 1, 1, "发送通知测试");
+            option2.SetShowAsAction(ShowAsAction.CollapseActionView);
+            var option3 = menu.Add(0, 2, 2, "Debug Reset");
+            option3.SetShowAsAction(ShowAsAction.CollapseActionView);
+
+            return base.OnCreateOptionsMenu(menu);
+        }
+
+        public override bool OnOptionsItemSelected(IMenuItem item)
+        {
+            switch (item.ItemId)
+            {
+                case 0://设置壁纸为必应美图
+                    StartService(new Intent(this, typeof(SetWallpaper)));
+                    break;
+                case 1://发送通知测试
+                    var notify = new Notification.Builder(this);
+                    notify.SetContentTitle("Hello!");
+                    notify.SetContentText("world!");
+                    notify.SetTicker("test");
+                    notify.SetContentInfo("test info");
+                    notify.SetDefaults(NotificationDefaults.Sound);
+                    notify.SetSmallIcon(Resource.Drawable.Icon);
+                    ((NotificationManager)GetSystemService(NotificationService)).Notify(1, notify.Build());
+                    break;
+                case 2://Debug Reset
+                    AlertDialog.Builder dialog = new AlertDialog.Builder(this);
+                    dialog.SetIcon(Resource.Drawable.Icon);
+                    dialog.SetTitle("确定重置？");
+                    dialog.SetMessage("此功能仅当在开发过程中使用，请慎重。");
+                    dialog.SetCancelable(true);
+                    dialog.SetPositiveButton("确定", (sender, e) =>
+                    {
+                        //清除所有preference数据
+                        var preference = GetSharedPreferences("tiles", FileCreationMode.Private);
+                        var editor = preference.Edit();
+                        editor.Clear();
+                        editor.Commit();
+                        LoadTiles();
+                    });
+                    dialog.SetNegativeButton("取消", (sender, e) => { });
+                    dialog.Show();
+                    break;
+            }
+
+            return base.OnOptionsItemSelected(item);
         }
     }
 }
