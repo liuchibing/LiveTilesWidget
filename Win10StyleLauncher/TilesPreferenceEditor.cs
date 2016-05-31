@@ -9,8 +9,8 @@ using Android.OS;
 using Android.Runtime;
 using Android.Views;
 using Android.Widget;
-
 using Newtonsoft.Json;
+using Android.Graphics;
 
 namespace LiveTilesWidget
 {
@@ -30,7 +30,10 @@ namespace LiveTilesWidget
             //反序列化磁贴配置
             foreach (var item in tiles)
             {
-                Tiles.Add(JsonConvert.DeserializeObject<AppDetail>(item));
+                AppDetail tile = JsonConvert.DeserializeObject<AppDetail>(item);
+                //加载图标
+                tile.LoadIcon(context);
+                Tiles.Add(tile);
             }
         }
 
@@ -75,7 +78,8 @@ namespace LiveTilesWidget
             List<string> list = new List<string>();
             foreach (var item in Tiles)
             {
-                //item.Icon = null;//清空Icon属性，防止出错
+                
+                item.Icon = null;//清空Icon属性，防止出错
                 list.Add(JsonConvert.SerializeObject(item));
             }
             editor.PutStringSet("Tiles", list);

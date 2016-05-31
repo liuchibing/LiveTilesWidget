@@ -45,6 +45,7 @@ namespace LiveTilesWidget
             get;
             set;
         }
+        //private Bitmap icon;
 
         /// <summary>
         /// 动态磁贴小部件的Id
@@ -77,22 +78,9 @@ namespace LiveTilesWidget
         /// 加载当前对象所代表的应用的图标到Icon属性
         /// </summary>
         /// <param name="context"></param>
-        [Obsolete("deprecated")]
         public void LoadIcon(Context context)
         {
-            AppDetail app = null;
-            foreach (var item in Codes.LoadApps(context.PackageManager))
-            {
-                if (item.Name == this.Name && item.Label == this.Label)
-                {
-                    app = item;
-                    break;
-                }
-            }
-            if (app != null)
-            {
-                this.Icon = app.Icon;
-            }
+            Icon = ((BitmapDrawable)context.PackageManager.GetActivityIcon(context.PackageManager.GetLaunchIntentForPackage(Name))).Bitmap;
         }
     }
 }

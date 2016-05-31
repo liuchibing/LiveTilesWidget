@@ -14,7 +14,7 @@ using Android.Graphics;
 
 namespace LiveTilesWidget
 {
-    [Activity(Label = "设置磁贴小部件", Name = "com.LiveTilesWidget.TileSetting", Exported = true)]
+    [Activity(Label = "设置磁贴小部件", Name = "com.LiveTilesWidget.TileSetting", Exported = true, LaunchMode = Android.Content.PM.LaunchMode.SingleTask, ConfigurationChanges = Android.Content.PM.ConfigChanges.Orientation)]
     public class TileSetting : Activity
     {
         int count = 1;
@@ -128,7 +128,7 @@ namespace LiveTilesWidget
                         FindViewById<Button>(Resource.Id.btnChooseApp).Text = label ?? "设置应用";
                         tile.Label = label;
                         tile.Name = data.GetStringExtra("Name");
-                        tile.Icon = (Bitmap)data.GetParcelableExtra("Icon");
+                        //tile.Icon = (Bitmap)data.GetParcelableExtra("Icon");
                         FindViewById<Button>(Resource.Id.btnRefresh).Enabled = (label != null);
                         break;
                     case 1://颜色选择界面的请求码
@@ -175,5 +175,6 @@ namespace LiveTilesWidget
 
             return base.OnMenuItemSelected(featureId, item);
         }
+
     }
 }

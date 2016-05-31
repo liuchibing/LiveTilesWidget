@@ -15,7 +15,7 @@ namespace LiveTilesWidget
     /// <summary>
     /// 选择磁贴所指向的应用
     /// </summary>
-    [Activity(Label = "选择一个应用")]
+    [Activity(Label = "选择一个应用", ConfigurationChanges = Android.Content.PM.ConfigChanges.Orientation)]
     public class AppPicker : ListActivity
     {
         protected List<AppDetail> apps;
@@ -48,11 +48,11 @@ namespace LiveTilesWidget
             //editor.PutString(Id + "Name", apps[position].Name);
             //editor.Commit();
 
-            //返回应用的Label、Name、Icon
+            //返回应用的Label、Name
             Intent i = new Intent();
             i.PutExtra("Label", apps[position].Label);
             i.PutExtra("Name", apps[position].Name);
-            i.PutExtra("Icon", apps[position].Icon);
+            //i.PutExtra("Icon", apps[position].Icon);
             SetResult(Result.Ok, i);
             Finish();
             //Intent intent = PackageManager.GetLaunchIntentForPackage(apps[position].Name);

@@ -16,7 +16,7 @@ using System.Threading.Tasks;
 
 namespace LiveTilesWidget
 {
-    [Activity(Label = "动态磁贴10", MainLauncher = true, Icon = "@drawable/icon")]
+    [Activity(Label = "动态磁贴10", MainLauncher = true, Icon = "@drawable/icon", ConfigurationChanges = Android.Content.PM.ConfigChanges.Orientation)]
     public class MainActivity : Activity, IDialogInterfaceOnClickListener
     {
         int count = 1;
@@ -59,18 +59,6 @@ namespace LiveTilesWidget
 
             //在任何重新进入应用的情况下重新加载磁贴列表
             LoadTiles();
-            //for (int i = 0; i < 20; i++)
-            //{
-            //    LoadTiles();
-            //}
-        }
-
-        protected override void OnRestart()
-        {
-            base.OnRestart();
-
-            //在任何重新进入应用的情况下重新加载磁贴列表
-            LoadTiles();
         }
 
         /// <summary>
@@ -85,13 +73,8 @@ namespace LiveTilesWidget
             {
                 //加载所有记录的磁贴
                 editor = new TilesPreferenceEditor(this);
-                ////加载图标
-                //foreach (var item in editor.Tiles)
-                //{
-                //    item.LoadIcon(this);
-                //}
             });
-            
+
             if (editor != null && editor.Tiles.Count != 0)
             {
                 listTiles.Adapter = new AppListAdapter(this, Resource.Layout.AppPickerItems, editor.Tiles.ToArray());
