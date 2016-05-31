@@ -68,11 +68,15 @@ namespace LiveTilesWidget
         {
             ListView listTiles = FindViewById<ListView>(Resource.Id.listTiles);
             listTiles.Visibility = ViewStates.Invisible;
+            //listTiles.FastScrollEnabled = false;
+            //listTiles.FastScrollAlwaysVisible = false;
             TilesPreferenceEditor editor = null;
             await Task.Run(() =>
             {
                 //加载所有记录的磁贴
                 editor = new TilesPreferenceEditor(this);
+                //排序列表
+                editor.Tiles.Sort(new PinyinComparer());
             });
 
             if (editor != null && editor.Tiles.Count != 0)
@@ -81,9 +85,15 @@ namespace LiveTilesWidget
                 listTiles.ItemClick += (sender, e) =>
                 {
                     Intent intent = new Intent(this, typeof(TileSetting));
-                    intent.PutExtra("id", editor.Tiles[e.Position].Id);
+                    try
+                    {
+                        intent.PutExtra("id", editor.Tiles[e.Position].Id);
+                    }
+                    catch { }
                     StartActivity(intent);
                 };
+                listTiles.FastScrollEnabled = true;
+                listTiles.FastScrollAlwaysVisible = true;
                 listTiles.Visibility = ViewStates.Visible;
             }
         }

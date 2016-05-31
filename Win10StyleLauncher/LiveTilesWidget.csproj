@@ -77,7 +77,9 @@
     <Compile Include="AppDetail.cs" />
     <Compile Include="AppListAdapter.cs" />
     <Compile Include="AppPicker.cs" />
+    <Compile Include="CharacterParser.cs" />
     <Compile Include="Codes.cs" />
+    <Compile Include="PinyinComparer.cs" />
     <Compile Include="NotificationService.cs" />
     <Compile Include="SetWallpaper.cs" />
     <Compile Include="TileSetting.cs" />

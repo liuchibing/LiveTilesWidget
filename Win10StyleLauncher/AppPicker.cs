@@ -28,7 +28,17 @@ namespace LiveTilesWidget
 
             //加载应用列表
             apps = Codes.LoadApps(PackageManager);
+            //排序列表
+            apps.Sort(new PinyinComparer());
+            //调试用代码
+            List<string> list = new List<string>();
+            foreach (var item in apps)
+            {
+                list.Add(string.Format("{0}======{1}", item.Name, item.GetSortLetters()));
+            }
             //显示应用
+            ListView.FastScrollEnabled = true;
+            ListView.FastScrollAlwaysVisible = true;
             ListAdapter = new AppListAdapter(this, Resource.Layout.AppPickerItems, apps.ToArray());
 
             //从Extra中获取要进行自定义设置的AppWidgetId

@@ -11,6 +11,7 @@ using Android.Views;
 using Android.Widget;
 using Android.Graphics.Drawables;
 using Android.Graphics;
+using System.Text.RegularExpressions;
 
 namespace LiveTilesWidget
 {
@@ -81,6 +82,34 @@ namespace LiveTilesWidget
         public void LoadIcon(Context context)
         {
             Icon = ((BitmapDrawable)context.PackageManager.GetActivityIcon(context.PackageManager.GetLaunchIntentForPackage(Name))).Bitmap;
+        }
+
+        /// <summary>
+        /// 获取用于在ListView中排序检索的（拼音）首字母
+        /// </summary>
+        /// <returns></returns>
+        public string GetSortLetters()
+        {
+            // 正则表达式，判断首字母是否是英文字母  
+            Regex reg = new Regex("[A-Z]");
+            if (reg.IsMatch(Label.Substring(0, 1).ToUpper()))
+            {
+                return Label.Substring(0, 1).ToUpper();
+            }
+            //汉字转换成拼音
+            string pinyin = CharacterParser.StrConvertToPinyin(Label.Substring(0, 1));
+            string sortString = pinyin.Substring(0, 1).ToUpper();
+
+            // 正则表达式，判断首字母是否是英文字母  
+            if (reg.IsMatch(sortString))
+            {
+                return sortString;
+            }
+            else
+            {
+                return "#";
+            }
+
         }
     }
 }
