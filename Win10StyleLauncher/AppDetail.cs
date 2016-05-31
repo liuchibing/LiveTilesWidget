@@ -10,6 +10,7 @@ using Android.Runtime;
 using Android.Views;
 using Android.Widget;
 using Android.Graphics.Drawables;
+using Android.Graphics;
 
 namespace LiveTilesWidget
 {
@@ -39,7 +40,7 @@ namespace LiveTilesWidget
         /// <summary>
         /// 图标
         /// </summary>
-        public Drawable Icon
+        public Bitmap Icon
         {
             get;
             set;
@@ -76,6 +77,7 @@ namespace LiveTilesWidget
         /// 加载当前对象所代表的应用的图标到Icon属性
         /// </summary>
         /// <param name="context"></param>
+        [Obsolete("deprecated")]
         public void LoadIcon(Context context)
         {
             AppDetail app = null;

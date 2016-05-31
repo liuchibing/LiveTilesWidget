@@ -32,7 +32,7 @@ namespace LiveTilesWidget
             }
 
             ImageView appIcon = v.FindViewById<ImageView>(Resource.Id.item_app_icon);
-            appIcon.SetImageDrawable(GetItem(position).Icon);
+            appIcon.SetImageBitmap(GetItem(position).Icon);
 
             TextView appLabel = v.FindViewById<TextView>(Resource.Id.item_app_label);
             appLabel.Text = GetItem(position).Label;

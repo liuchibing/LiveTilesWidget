@@ -10,6 +10,7 @@ using Android.Runtime;
 using Android.Views;
 using Android.Widget;
 using Android.Appwidget;
+using Android.Graphics;
 
 namespace LiveTilesWidget
 {
@@ -118,17 +119,21 @@ namespace LiveTilesWidget
 
         protected override void OnActivityResult(int requestCode, [GeneratedEnum] Result resultCode, Intent data)
         {
-            switch (requestCode)
+            if (resultCode == Result.Ok)
             {
-                case 0://应用选择界面的请求码
-                    string label = data.GetStringExtra("Label");
-                    FindViewById<Button>(Resource.Id.btnChooseApp).Text = label ?? "设置应用";
-                    tile.Label = label;
-                    tile.Name = data.GetStringExtra("Name");
-                    FindViewById<Button>(Resource.Id.btnRefresh).Enabled = (label != null);
-                    break;
-                case 1://颜色选择界面的请求码
-                    break;
+                switch (requestCode)
+                {
+                    case 0://应用选择界面的请求码
+                        string label = data.GetStringExtra("Label");
+                        FindViewById<Button>(Resource.Id.btnChooseApp).Text = label ?? "设置应用";
+                        tile.Label = label;
+                        tile.Name = data.GetStringExtra("Name");
+                        tile.Icon = (Bitmap)data.GetParcelableExtra("Icon");
+                        FindViewById<Button>(Resource.Id.btnRefresh).Enabled = (label != null);
+                        break;
+                    case 1://颜色选择界面的请求码
+                        break;
+                }
             }
         }
 

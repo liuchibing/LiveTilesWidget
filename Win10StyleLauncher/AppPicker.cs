@@ -22,6 +22,8 @@ namespace LiveTilesWidget
         private int Id;
         protected override void OnCreate(Bundle savedInstanceState)
         {
+            //防止意外退出
+            SetResult(Result.Canceled);
             base.OnCreate(savedInstanceState);
 
             //加载应用列表
@@ -46,10 +48,11 @@ namespace LiveTilesWidget
             //editor.PutString(Id + "Name", apps[position].Name);
             //editor.Commit();
 
-            //返回应用的Label、Name
+            //返回应用的Label、Name、Icon
             Intent i = new Intent();
             i.PutExtra("Label", apps[position].Label);
             i.PutExtra("Name", apps[position].Name);
+            i.PutExtra("Icon", apps[position].Icon);
             SetResult(Result.Ok, i);
             Finish();
             //Intent intent = PackageManager.GetLaunchIntentForPackage(apps[position].Name);

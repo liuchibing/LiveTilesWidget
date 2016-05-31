@@ -59,6 +59,10 @@ namespace LiveTilesWidget
 
             //在任何重新进入应用的情况下重新加载磁贴列表
             LoadTiles();
+            //for (int i = 0; i < 20; i++)
+            //{
+            //    LoadTiles();
+            //}
         }
 
         protected override void OnRestart()
@@ -81,13 +85,13 @@ namespace LiveTilesWidget
             {
                 //加载所有记录的磁贴
                 editor = new TilesPreferenceEditor(this);
-                //加载图标
-                foreach (var item in editor.Tiles)
-                {
-                    item.LoadIcon(this);
-                }
+                ////加载图标
+                //foreach (var item in editor.Tiles)
+                //{
+                //    item.LoadIcon(this);
+                //}
             });
-
+            
             if (editor != null && editor.Tiles.Count != 0)
             {
                 listTiles.Adapter = new AppListAdapter(this, Resource.Layout.AppPickerItems, editor.Tiles.ToArray());

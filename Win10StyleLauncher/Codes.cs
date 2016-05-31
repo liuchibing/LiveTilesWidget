@@ -67,7 +67,7 @@ namespace LiveTilesWidget
                 AppDetail app = new AppDetail();
                 app.Label = item.LoadLabel(manager);
                 app.Name = item.ActivityInfo.PackageName;
-                app.Icon = item.ActivityInfo.LoadIcon(manager);
+                app.Icon = ((BitmapDrawable)item.ActivityInfo.LoadIcon(manager)).Bitmap;
                 apps.Add(app);
             }
             return apps;
@@ -94,8 +94,7 @@ namespace LiveTilesWidget
             //设置应用名称
             views.SetTextViewText(Resource.Id.tileLabel, tile.Label);
             //设置图标
-            tile.LoadIcon(context);
-            views.SetImageViewBitmap(Resource.Id.tileIcon, ((BitmapDrawable)tile.Icon).Bitmap);
+            views.SetImageViewBitmap(Resource.Id.tileIcon, tile.Icon);
             //设置背景色
             if (tile.AutoTileColor)
             {
