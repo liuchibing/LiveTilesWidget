@@ -92,24 +92,20 @@ namespace LiveTilesWidget
         {
             // 正则表达式，判断首字母是否是英文字母  
             Regex reg = new Regex("[A-Z]");
-            if (reg.IsMatch(Label.Substring(0, 1).ToUpper()))
-            {
-                return Label.Substring(0, 1).ToUpper();
-            }
+            
             //汉字转换成拼音
-            string pinyin = CharacterParser.StrConvertToPinyin(Label.Substring(0, 1));
-            string sortString = pinyin.Substring(0, 1).ToUpper();
+            string pinyin = CharacterParser.GetCharSpellCode(Label.Substring(0, 1));
 
             // 正则表达式，判断首字母是否是英文字母  
-            if (reg.IsMatch(sortString))
+            if (reg.IsMatch(pinyin))
             {
-                return sortString;
+                return pinyin;
             }
             else
             {
                 return "#";
             }
-
         }
+
     }
 }
