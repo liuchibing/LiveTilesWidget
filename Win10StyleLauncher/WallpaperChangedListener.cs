@@ -50,7 +50,7 @@ namespace LiveTilesWidget
                     palette.VibrantSwatch,
                     palette.MutedSwatch
                 });
-                //
+                
                 if (color == -1)
                 {
                     color = Codes.GetMainColor(palette.Swatches);
@@ -63,7 +63,7 @@ namespace LiveTilesWidget
             TilesPreferenceEditor editorTiles = new TilesPreferenceEditor(context);
             foreach (var item in editorTiles.Tiles)
             {
-                Codes.UpdateTiles(item.Id, context, null);
+                Codes.UpdateTiles(item.Id, context, null, null);
             }
         }
     }

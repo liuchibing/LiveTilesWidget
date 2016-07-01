@@ -10,12 +10,6 @@
         p1:id="@+id/tileBackground"
         p1:alpha="0.5"
         p1:scaleType="fitXY" />
-    <ImageView
-        p1:src="@drawable/icon"
-        p1:layout_width="@android:dimen/app_icon_size"
-        p1:layout_height="@android:dimen/app_icon_size"
-        p1:id="@+id/tileIcon"
-        p1:layout_gravity="center" />
     <TextView
         p1:text="Text"
         p1:layout_width="match_parent"
@@ -25,4 +19,11 @@
         p1:textColor="@android:color/white"
         p1:padding="3dp"
         p1:textSize="12dp" />
+    <TextView
+        p1:text="Text"
+        p1:layout_width="match_parent"
+        p1:layout_height="match_parent"
+        p1:id="@+id/tileNotification"
+        p1:textColor="@android:color/white"
+        p1:padding="3dp" />
 </FrameLayout>

@@ -40,12 +40,19 @@ namespace LiveTilesWidget
                     {
                         string text = sbn.Notification.Extras.GetString(Notification.ExtraTitle, "错误") + '\n' + sbn.Notification.Extras.GetString(Notification.ExtraText, "错误");
                         //推送动态磁贴小部件更新
-                        Codes.UpdateTiles(item.Id, this, text);
+                        if (item.ShowNotifIcon) //是否允许显示图标
+                        {
+                            Codes.UpdateTiles(item.Id, this, text, sbn.Notification.LargeIcon);
+                        }
+                        else
+                        {
+                            Codes.UpdateTiles(item.Id, this, text, null);
+                        }
                     }
                     else
                     {
                         //否则直接照搬通知内容,推送小部件更新
-                        Codes.UpdateTiles(item.Id, this, sbn.Notification);
+                        Codes.UpdateTiles(item.Id, this, sbn.Notification, null);
                     }
                 }
             }
@@ -63,7 +70,7 @@ namespace LiveTilesWidget
                 if (item.ShowNotification && sbn.PackageName == item.Name)
                 {
                     //推送小部件更新
-                    Codes.UpdateTiles(item.Id, this, null);
+                    Codes.UpdateTiles(item.Id, this, null, null);
                 }
             }
         }

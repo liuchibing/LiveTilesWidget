@@ -28,11 +28,15 @@ namespace LiveTilesWidget
             if (editor.GetTileById(appWidgetIds[0]) == null)
             {
                 Codes.InitializeTile(context, appWidgetManager, appWidgetIds);
+                Intent i = new Intent(context, typeof(TileSetting));
+                i.PutExtra(AppWidgetManager.ExtraAppwidgetId, appWidgetIds[0]);
+                i.AddFlags(ActivityFlags.NewTask);
+                context.StartActivity(i);
             }
-            else
-            {
-                Codes.UpdateTiles(appWidgetIds[0], context, null);
-            }
+            //else
+            //{
+            //    Codes.UpdateTiles(appWidgetIds[0], context, null);
+            //}
         }
 
         public override void OnDeleted(Context context, int[] appWidgetIds)

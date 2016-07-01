@@ -58,7 +58,7 @@ namespace LiveTilesWidget
             base.OnResume();
 
             //在任何重新进入应用的情况下重新加载磁贴列表
-            LoadTiles();
+                LoadTiles();
         }
 
         /// <summary>

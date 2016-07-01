@@ -76,6 +76,15 @@ namespace LiveTilesWidget
         }
 
         /// <summary>
+        /// 是否在有通知时显示通知的图标
+        /// </summary>
+        public bool ShowNotifIcon
+        {
+            get;
+            set;
+        }
+
+        /// <summary>
         /// 加载当前对象所代表的应用的图标到Icon属性
         /// </summary>
         /// <param name="context"></param>

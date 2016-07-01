@@ -11,6 +11,7 @@ using Android.Views;
 using Android.Widget;
 using Android.Appwidget;
 using Android.Graphics;
+using Android.Util;
 
 namespace LiveTilesWidget
 {
@@ -50,6 +51,7 @@ namespace LiveTilesWidget
             Button btnChooseApp = FindViewById<Button>(Resource.Id.btnChooseApp);
             CheckBox checkShowNotif = FindViewById<CheckBox>(Resource.Id.checkShowNotif);
             CheckBox checkAutoColor = FindViewById<CheckBox>(Resource.Id.checkAutoColor);
+            CheckBox checkShowNotifIcon = FindViewById<CheckBox>(Resource.Id.checkShowNotifIcon);
             Button btnRefresh = FindViewById<Button>(Resource.Id.btnRefresh);
 
             //获取存储的磁贴信息
@@ -62,6 +64,8 @@ namespace LiveTilesWidget
                 checkShowNotif.Checked = true;
                 tile.AutoTileColor = true;
                 checkAutoColor.Checked = true;
+                tile.ShowNotifIcon = false;
+                checkShowNotifIcon.Checked = false;
                 btnRefresh.Enabled = false;
             }
             else
@@ -78,6 +82,7 @@ namespace LiveTilesWidget
                     //设置是否允许显示通知选择框的状态为存储记录中此磁贴当前是否允许显示通知的状态
                     checkShowNotif.Checked = tile.ShowNotification;
                     checkAutoColor.Checked = tile.AutoTileColor;
+                    checkShowNotifIcon.Checked = tile.ShowNotifIcon;
                 }
                 catch { }
             }
@@ -99,6 +104,11 @@ namespace LiveTilesWidget
             {
                 tile.AutoTileColor = checkAutoColor.Checked;
             };
+            checkShowNotifIcon.CheckedChange += (sender, e) =>
+            {
+                tile.ShowNotifIcon = checkShowNotifIcon.Checked;
+            };
+
 
             //点击按钮时保存更改并立即刷新磁贴
             btnRefresh.Click += (sender, e) =>
@@ -109,10 +119,15 @@ namespace LiveTilesWidget
                      editor.Tiles.Add(tile);
                  }
                  editor.CommitChanges();
-                 Codes.UpdateTiles(id, this, null);
+                 Codes.UpdateTiles(id, this, null, null);
+
                  Intent result = new Intent();
-                 i.PutExtra(AppWidgetManager.ExtraAppwidgetId, id);
+                 Bundle b = new Bundle();
+                 b.PutInt(AppWidgetManager.ExtraAppwidgetId, id);
+                 i.PutExtras(b);
                  SetResult(Result.Ok, result);
+
+                 Log.Debug("LiveTileWidget", "TileSettingReturned");
                  Finish();
              };
         }
