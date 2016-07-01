@@ -10,6 +10,7 @@ using Android.Runtime;
 using Android.Views;
 using Android.Widget;
 using Java.Lang;
+using Android.Graphics;
 
 namespace LiveTilesWidget
 {
@@ -86,7 +87,7 @@ namespace LiveTilesWidget
             }
 
             ImageView appIcon = v.FindViewById<ImageView>(Resource.Id.item_app_icon);
-            appIcon.SetImageBitmap(GetItem(position).Icon);
+            appIcon.SetImageResource(BitmapFactory.DecodeByteArray(GetItem(position).Icon,0,GetItem(position).Icon.Length);
 
             TextView appLabel = v.FindViewById<TextView>(Resource.Id.item_app_label);
             appLabel.Text = GetItem(position).Label;

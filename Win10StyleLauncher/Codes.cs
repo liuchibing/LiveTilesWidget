@@ -17,6 +17,7 @@ using System.Net;
 using System.Threading.Tasks;
 using Android.Support.V7.Graphics;
 using static Android.Support.V7.Graphics.Palette;
+using Java.Nio;
 
 namespace LiveTilesWidget
 {
@@ -67,7 +68,10 @@ namespace LiveTilesWidget
                 AppDetail app = new AppDetail();
                 app.Label = item.LoadLabel(manager);
                 app.Name = item.ActivityInfo.PackageName;
-                app.Icon = ((BitmapDrawable)item.ActivityInfo.LoadIcon(manager)).Bitmap;
+                Bitmap icon = ((BitmapDrawable)item.ActivityInfo.LoadIcon(manager)).Bitmap;
+                ByteBuffer buffer = ByteBuffer.Allocate(icon.AllocationByteCount);
+                icon.CopyPixelsToBuffer(buffer);
+                app.Icon = buffer.ToArray<byte>();
                 apps.Add(app);
             }
             return apps;
@@ -94,7 +98,8 @@ namespace LiveTilesWidget
             //设置应用名称
             views.SetTextViewText(Resource.Id.tileLabel, tile.Label);
             //设置图标
-            views.SetImageViewBitmap(Resource.Id.tileIcon, tile.Icon);
+            views.SetImageViewResource(Resource.Id.tileIcon, tile.Icon);
+            //views.SetImageViewBitmap(Resource.Id.tileIcon, tile.Icon);
             //设置背景色
             if (tile.AutoTileColor)
             {

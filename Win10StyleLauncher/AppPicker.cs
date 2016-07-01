@@ -63,7 +63,7 @@ namespace LiveTilesWidget
             Intent i = new Intent();
             i.PutExtra("Label", apps[position].Label);
             i.PutExtra("Name", apps[position].Name);
-            //i.PutExtra("Icon", apps[position].Icon);
+            i.PutExtra("Icon", apps[position].Icon);
             SetResult(Result.Ok, i);
             Finish();
             //Intent intent = PackageManager.GetLaunchIntentForPackage(apps[position].Name);
