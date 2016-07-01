@@ -9,6 +9,7 @@ using Android.OS;
 using Android.Runtime;
 using Android.Views;
 using Android.Widget;
+using System.Threading.Tasks;
 
 namespace LiveTilesWidget
 {
@@ -20,26 +21,26 @@ namespace LiveTilesWidget
     {
         protected List<AppDetail> apps;
         private int Id;
-        protected override void OnCreate(Bundle savedInstanceState)
+        protected async override void OnCreate(Bundle savedInstanceState)
         {
             //防止意外退出
             SetResult(Result.Canceled);
             base.OnCreate(savedInstanceState);
 
-            //加载应用列表
-            apps = Codes.LoadApps(PackageManager);
-            //排序列表
-            apps.Sort(new PinyinComparer());
-            //调试用代码
-            List<string> list = new List<string>();
-            foreach (var item in apps)
+            ListView.Visibility = ViewStates.Invisible;
+            await Task.Run(() =>
             {
-                list.Add(string.Format("{0}======{1}", item.Name, item.GetSortLetters()));
-            }
+                //加载应用列表
+                apps = Codes.LoadApps(PackageManager);
+                //排序列表
+                apps.Sort(new PinyinComparer());
+            });
+
             //显示应用
             ListView.FastScrollEnabled = true;
             ListView.FastScrollAlwaysVisible = true;
             ListAdapter = new AppListAdapter(this, Resource.Layout.AppPickerItems, apps.ToArray());
+            ListView.Visibility = ViewStates.Visible;
 
             //从Extra中获取要进行自定义设置的AppWidgetId
             Id = Intent.GetIntExtra("id", -1);
