@@ -41,7 +41,7 @@ namespace LiveTilesWidget
         /// <summary>
         /// 图标
         /// </summary>
-        public byte[] Icon
+        public Bitmap Icon
         {
             get;
             set;
@@ -76,12 +76,12 @@ namespace LiveTilesWidget
         }
 
         /// <summary>
-        /// 加载当前对象所代表的应用的图标
+        /// 加载当前对象所代表的应用的图标到Icon属性
         /// </summary>
         /// <param name="context"></param>
-        public Bitmap LoadIcon(Context context)
+        public void LoadIcon(Context context)
         {
-            return ((BitmapDrawable)context.PackageManager.GetActivityIcon(context.PackageManager.GetLaunchIntentForPackage(Name))).Bitmap;
+            Icon = ((BitmapDrawable)context.PackageManager.GetActivityIcon(context.PackageManager.GetLaunchIntentForPackage(Name))).Bitmap;
         }
 
         /// <summary>

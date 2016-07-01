@@ -128,7 +128,7 @@ namespace LiveTilesWidget
                         FindViewById<Button>(Resource.Id.btnChooseApp).Text = label ?? "设置应用";
                         tile.Label = label;
                         tile.Name = data.GetStringExtra("Name");
-                        tile.Icon = data.GetIntExtra("Icon", Resource.Drawable.Icon);
+                        //tile.Icon = (Bitmap)data.GetParcelableExtra("Icon");
                         FindViewById<Button>(Resource.Id.btnRefresh).Enabled = (label != null);
                         break;
                     case 1://颜色选择界面的请求码

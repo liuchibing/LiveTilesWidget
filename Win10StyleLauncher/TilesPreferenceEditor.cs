@@ -79,7 +79,7 @@ namespace LiveTilesWidget
             foreach (var item in Tiles)
             {
                 
-                //item.Icon = null;//清空Icon属性，防止出错
+                item.Icon = null;//清空Icon属性，防止出错
                 list.Add(JsonConvert.SerializeObject(item));
             }
             editor.PutStringSet("Tiles", list);
