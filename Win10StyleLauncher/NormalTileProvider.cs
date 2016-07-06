@@ -10,6 +10,7 @@ using Android.Runtime;
 using Android.Views;
 using Android.Widget;
 using Android.Appwidget;
+using System.Threading;
 
 namespace LiveTilesWidget
 {
@@ -28,10 +29,11 @@ namespace LiveTilesWidget
             if (editor.GetTileById(appWidgetIds[0]) == null)
             {
                 Codes.InitializeTile(context, appWidgetManager, appWidgetIds);
-                Intent i = new Intent(context, typeof(TileSetting));
-                i.PutExtra(AppWidgetManager.ExtraAppwidgetId, appWidgetIds[0]);
-                i.AddFlags(ActivityFlags.NewTask);
-                context.StartActivity(i);
+                //Intent i = new Intent(context, typeof(TileSetting));
+                //i.PutExtra(AppWidgetManager.ExtraAppwidgetId, appWidgetIds[0]);
+                //i.AddFlags(ActivityFlags.NewTask);
+                //Thread.Sleep(3000);//防止用户来不及放置小部件
+                //context.StartActivity(i);
             }
             //else
             //{

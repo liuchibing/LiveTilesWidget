@@ -22,6 +22,8 @@ namespace LiveTilesWidget
         {
             base.OnCreate();
             Log.Debug("notif", "creating");
+            //因为此服务会随系统启动，因此可以在此处安排自动更新Rss，省去了监听系统启动完成的麻烦
+            Codes.ArrangeRssUpdate(this);
         }
 
         public override void OnNotificationPosted(StatusBarNotification sbn)

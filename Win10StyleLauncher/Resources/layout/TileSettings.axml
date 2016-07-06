@@ -22,6 +22,12 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/btnChooseApp" />
+    <TextView
+        android:text="动态磁贴"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/textView4" />
     <CheckBox
         android:text="在磁贴上显示通知"
         android:layout_width="match_parent"
@@ -32,6 +38,32 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/checkShowNotifIcon" />
+    <RadioGroup xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/radioGroupTileType"
+        android:layout_marginLeft="25dp">
+        <RadioButton
+            android:text="无"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/radioTypeNone"
+            android:checked="true" />
+        <RadioButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:checked="true"
+            android:text="Rss"
+            android:id="@+id/radioTypeRss" />
+        <EditText
+            android:id="@+id/editRssUrl"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textUri"
+            android:hint="Rss的网址"
+            android:text="http://api.ithome.com/xml/newslist/news.xml"
+            android:layout_marginLeft="25dp" />
+    </RadioGroup>
     <TextView
         android:text="颜色"
         android:textAppearance="?android:attr/textAppearanceLarge"

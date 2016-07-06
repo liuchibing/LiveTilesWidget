@@ -85,6 +85,24 @@ namespace LiveTilesWidget
         }
 
         /// <summary>
+        /// 当前动态磁贴动态内容的类型
+        /// </summary>
+        public LiveTileType TileType
+        {
+            get;
+            set;
+        }
+
+        /// <summary>
+        /// 用于更新动态磁贴动态内容的Rss Url
+        /// </summary>
+        public string RssUrl
+        {
+            get;
+            set;
+        }
+
+        /// <summary>
         /// 加载当前对象所代表的应用的图标到Icon属性
         /// </summary>
         /// <param name="context"></param>
@@ -115,6 +133,20 @@ namespace LiveTilesWidget
                 return "#";
             }
         }
+    }
 
+    /// <summary>
+    /// 动态磁贴动态内容的类型
+    /// </summary>
+    public enum LiveTileType
+    {
+        /// <summary>
+        /// 仅按照磁贴设置，在有通知时显示通知内容，无其他动态内容
+        /// </summary>
+        None,
+        /// <summary>
+        /// 从指定RSS源更新动态内容
+        /// </summary>
+        Rss
     }
 }

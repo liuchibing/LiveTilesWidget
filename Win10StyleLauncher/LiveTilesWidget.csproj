@@ -81,6 +81,7 @@
     <Compile Include="Codes.cs" />
     <Compile Include="PinyinComparer.cs" />
     <Compile Include="NotificationService.cs" />
+    <Compile Include="ReadRss.cs" />
     <Compile Include="SetWallpaper.cs" />
     <Compile Include="TileSetting.cs" />
     <Compile Include="MainActivity.cs" />

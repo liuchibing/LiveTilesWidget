@@ -5,6 +5,6 @@
   android:minHeight = "40dp"
   android:initialLayout = "@layout/NormalTile"
   android:resizeMode = "horizontal|vertical"
-  
+  android:configure = "com.LiveTilesWidget.TileSetting"
   >
 </appwidget-provider>

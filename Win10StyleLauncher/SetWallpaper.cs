@@ -22,10 +22,14 @@ namespace LiveTilesWidget
     {
         protected override async void OnHandleIntent(Intent intent)
         {
-            WallpaperManager wall = WallpaperManager.GetInstance(this);
-            Bitmap img = await Codes.GetBingImage();
-            wall.SetBitmap(img);
-            Log.Debug("Walpaper", "Done");
+            try
+            {
+                WallpaperManager wall = WallpaperManager.GetInstance(this);
+                Bitmap img = await Codes.GetBingImage();
+                wall.SetBitmap(img);
+                Log.Debug("Walpaper", "Done");
+            }
+            catch { }
         }
     }
 }

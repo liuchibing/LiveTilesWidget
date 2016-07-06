@@ -48,11 +48,14 @@ namespace LiveTilesWidget
 
             SetContentView(Resource.Layout.TileSettings);
 
+            //页面上的控件
             Button btnChooseApp = FindViewById<Button>(Resource.Id.btnChooseApp);
             CheckBox checkShowNotif = FindViewById<CheckBox>(Resource.Id.checkShowNotif);
             CheckBox checkAutoColor = FindViewById<CheckBox>(Resource.Id.checkAutoColor);
             CheckBox checkShowNotifIcon = FindViewById<CheckBox>(Resource.Id.checkShowNotifIcon);
             Button btnRefresh = FindViewById<Button>(Resource.Id.btnRefresh);
+            RadioGroup radioGroupTileType = FindViewById<RadioGroup>(Resource.Id.radioGroupTileType);
+            EditText editRssUrl = FindViewById<EditText>(Resource.Id.editRssUrl);
 
             //获取存储的磁贴信息
             editor = new TilesPreferenceEditor(this);
@@ -67,6 +70,9 @@ namespace LiveTilesWidget
                 tile.ShowNotifIcon = false;
                 checkShowNotifIcon.Checked = false;
                 btnRefresh.Enabled = false;
+                tile.TileType = LiveTileType.None;
+                radioGroupTileType.Check(Resource.Id.radioTypeNone);
+                editRssUrl.Visibility = ViewStates.Gone;
             }
             else
             {
@@ -83,6 +89,15 @@ namespace LiveTilesWidget
                     checkShowNotif.Checked = tile.ShowNotification;
                     checkAutoColor.Checked = tile.AutoTileColor;
                     checkShowNotifIcon.Checked = tile.ShowNotifIcon;
+                    switch (tile.TileType)
+                    {
+                        case LiveTileType.None:
+                            radioGroupTileType.Check(Resource.Id.radioTypeNone);
+                            break;
+                        case LiveTileType.Rss:
+                            radioGroupTileType.Check(Resource.Id.radioTypeRss);
+                            break;
+                    }
                 }
                 catch { }
             }
@@ -108,7 +123,28 @@ namespace LiveTilesWidget
             {
                 tile.ShowNotifIcon = checkShowNotifIcon.Checked;
             };
-
+            radioGroupTileType.CheckedChange += (sender, e) =>
+            {
+                switch (radioGroupTileType.CheckedRadioButtonId)
+                {
+                    case Resource.Id.radioTypeNone://无内容
+                        tile.TileType = LiveTileType.None;
+                        editRssUrl.Visibility = ViewStates.Gone;
+                        break;
+                    case Resource.Id.radioTypeRss://Rss
+                        tile.TileType = LiveTileType.Rss;
+                        editRssUrl.Visibility = ViewStates.Visible;
+                        if (editRssUrl.Text != "")
+                        {
+                            tile.RssUrl = editRssUrl.Text;
+                        }
+                        break;
+                }
+            };
+            editRssUrl.TextChanged += (sender, e) =>
+            {
+                tile.RssUrl = editRssUrl.Text;
+            };
 
             //点击按钮时保存更改并立即刷新磁贴
             btnRefresh.Click += (sender, e) =>
@@ -120,11 +156,14 @@ namespace LiveTilesWidget
                  }
                  editor.CommitChanges();
                  Codes.UpdateTiles(id, this, null, null);
+                 Intent iRss = new Intent(this, typeof(ReadRss));
+                 iRss.SetAction("com.LiveTilesWidget.UpdateRss");
+                 StartService(iRss);
 
                  Intent result = new Intent();
                  Bundle b = new Bundle();
                  b.PutInt(AppWidgetManager.ExtraAppwidgetId, id);
-                 i.PutExtras(b);
+                 result.PutExtras(b);
                  SetResult(Result.Ok, result);
 
                  Log.Debug("LiveTileWidget", "TileSettingReturned");

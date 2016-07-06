@@ -29,10 +29,14 @@ namespace LiveTilesWidget
             //反序列化磁贴配置
             foreach (var item in tiles)
             {
-                AppDetail tile = JsonConvert.DeserializeObject<AppDetail>(item);
-                //加载图标
-                tile.LoadIcon(context);
-                Tiles.Add(tile);
+                try
+                {
+                    AppDetail tile = JsonConvert.DeserializeObject<AppDetail>(item);
+                    //加载图标
+                    tile.LoadIcon(context);
+                    Tiles.Add(tile);
+                }
+                catch { }
             }
         }
 

@@ -134,7 +134,7 @@ namespace LiveTilesWidget
                 Bitmap bitmap = Bitmap.CreateBitmap(new int[] { color }, 1, 1, Bitmap.Config.Argb8888);
                 views.SetImageViewBitmap(Resource.Id.tileBackground, bitmap);
             }
-            
+
             //设置点击时执行的意图
             Intent intent = context.PackageManager.GetLaunchIntentForPackage(tile.Name);
             PendingIntent pintent = PendingIntent.GetActivity(context, 0, intent, PendingIntentFlags.UpdateCurrent);
@@ -151,10 +151,17 @@ namespace LiveTilesWidget
         /// <returns></returns>
         public static async Task<Bitmap> GetBingImage()
         {
-            WebClient wc = new WebClient();
-            byte[] buffer = await wc.DownloadDataTaskAsync(new Uri(@"http://area.sinaapp.com/bingImg"));
-            Bitmap img = await BitmapFactory.DecodeByteArrayAsync(buffer, 0, buffer.Length);
-            return img;
+            try
+            {
+                WebClient wc = new WebClient();
+                byte[] buffer = await wc.DownloadDataTaskAsync(new Uri(@"http://area.sinaapp.com/bingImg"));
+                Bitmap img = await BitmapFactory.DecodeByteArrayAsync(buffer, 0, buffer.Length);
+                return img;
+            }
+            catch
+            {
+                return null;
+            }
         }
 
         /// <summary>
@@ -182,6 +189,19 @@ namespace LiveTilesWidget
                 }
             }
             return color;
+        }
+
+        /// <summary>
+        /// 安排定时启动Rss自动更新服务
+        /// </summary>
+        /// <param name="context"></param>
+        public static void ArrangeRssUpdate(Service context)
+        {
+            Intent i = new Intent(context, typeof(ReadRss));
+            i.SetAction("com.LiveTilesWidget.UpdateRss");
+            PendingIntent pi = PendingIntent.GetService(context, 0, i, PendingIntentFlags.CancelCurrent);
+            AlarmManager am = (AlarmManager)context.GetSystemService(Context.AlarmService);
+            am.SetRepeating(AlarmType.ElapsedRealtimeWakeup, SystemClock.ElapsedRealtime(), 30 * 60 * 1000, pi);
         }
     }
 }
