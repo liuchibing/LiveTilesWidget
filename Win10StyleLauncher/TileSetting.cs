@@ -93,9 +93,15 @@ namespace LiveTilesWidget
                     {
                         case LiveTileType.None:
                             radioGroupTileType.Check(Resource.Id.radioTypeNone);
+                            editRssUrl.Visibility = ViewStates.Gone;
                             break;
                         case LiveTileType.Rss:
                             radioGroupTileType.Check(Resource.Id.radioTypeRss);
+                            editRssUrl.Visibility = ViewStates.Visible;
+                            if (editRssUrl.Text != "")
+                            {
+                                tile.RssUrl = editRssUrl.Text;
+                            }
                             break;
                     }
                 }

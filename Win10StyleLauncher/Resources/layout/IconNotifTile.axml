@@ -28,7 +28,8 @@
             p1:layout_toRightOf="@+id/tileNotifIcon"
             p1:paddingLeft="10dp"
             p1:text="Label"
-            p1:layout_centerVertical="true" />
+            p1:layout_centerVertical="true"
+            p1:textColor="@android:color/white" />
     </RelativeLayout>
     <TextView
         p1:text="Text"

@@ -41,8 +41,7 @@
     <RadioGroup xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/radioGroupTileType"
-        android:layout_marginLeft="25dp">
+        android:id="@+id/radioGroupTileType">
         <RadioButton
             android:text="无"
             android:layout_width="match_parent"
