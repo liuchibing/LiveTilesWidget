@@ -16,13 +16,13 @@ namespace LiveTilesWidget
     /// <summary>
     /// 用于适配以AppDetail为内容的ListView
     /// </summary>
-    public class AppListAdapter : ArrayAdapter<AppDetail>, ISectionIndexer
+    public class AppListAdapter : ArrayAdapter<TileDetail>, ISectionIndexer
     {
         Dictionary<string, int> alphaindex;
         Java.Lang.Object[] sectionsObjects;
         string[] sections;
 
-        public AppListAdapter(Context context, int textViewResourceId, AppDetail[] objects)
+        public AppListAdapter(Context context, int textViewResourceId, TileDetail[] objects)
             : base(context, textViewResourceId, objects)
         {
             alphaindex = new Dictionary<string, int>();

@@ -17,5 +17,6 @@
         android:layout_toRightOf="@+id/item_app_icon"
         android:paddingLeft="10dp"
         android:text="Label"
-        android:layout_centerVertical="true" />
+        android:layout_centerVertical="true"
+        android:textColor="@color/primary_text" />
 </RelativeLayout>

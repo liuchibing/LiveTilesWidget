@@ -18,7 +18,7 @@ namespace LiveTilesWidget
     /// <summary>
     /// 一个可以被动态磁贴小部件启动的应用的信息,或一个动态磁贴的配置信息
     /// </summary>
-    public class AppDetail
+    public class TileDetail
     {
         /// <summary>
         /// 显示的标签名称
@@ -67,9 +67,9 @@ namespace LiveTilesWidget
         }
 
         /// <summary>
-        /// 是否从壁纸中自动获取适合的背景色
+        /// 磁贴的背景色，-1为自动，-2为全局自定义色
         /// </summary>
-        public bool AutoTileColor
+        public int TileColor
         {
             get;
             set;

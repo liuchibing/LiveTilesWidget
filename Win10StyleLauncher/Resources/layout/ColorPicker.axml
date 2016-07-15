@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="utf-8"?>
+<GridLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:rowCount="5"
+    android:columnCount="4"
+    android:padding="16dp"
+    android:id="@+id/colorPickerRoot">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/colorAuto"
+        android:layout_columnSpan="4"
+        android:layout_gravity="fill"
+        android:layout_margin="2dp">
+        <ImageView
+            android:id="@+id/imgAuto"
+            android:layout_width="64dp"
+            android:layout_height="64dp"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:src="@color/cyan500" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/imgAuto"
+            android:paddingLeft="10dp"
+            android:text="自动从壁纸取色"
+            android:layout_centerVertical="true"
+            android:textColor="@color/primary_text" />
+    </RelativeLayout>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/colorDefault"
+        android:layout_columnSpan="4"
+        android:layout_gravity="fill"
+        android:layout_margin="2dp">
+        <ImageView
+            android:id="@+id/imgDefault"
+            android:layout_width="64dp"
+            android:layout_height="64dp"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:src="@color/cyan500" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/imgDefault"
+            android:paddingLeft="10dp"
+            android:layout_centerVertical="true"
+            android:text="全局自定义颜色"
+            android:textColor="@color/primary_text" />
+    </RelativeLayout>
+    <ImageView
+        android:src="@color/red500"
+        android:layout_width="64dp"
+        android:layout_height="64dp"
+        android:layout_margin="2dp"
+        android:id="@+id/colorRed" />
+    <ImageView
+        android:src="@color/pink500"
+        android:layout_width="64dp"
+        android:layout_height="64dp"
+        android:layout_margin="2dp"
+        android:id="@+id/colorPin" />
+    <ImageView
+        android:src="@color/purple500"
+        android:layout_width="64dp"
+        android:layout_height="64dp"
+        android:layout_margin="2dp"
+        android:id="@+id/colorPur" />
+    <ImageView
+        android:src="@color/deeppurple500"
+        android:layout_width="64dp"
+        android:layout_height="64dp"
+        android:layout_margin="2dp"
+        android:id="@+id/colorDpur" />
+    <ImageView
+        android:src="@color/indigo500"
+        android:layout_width="64dp"
+        android:layout_height="64dp"
+        android:layout_margin="2dp"
+        android:id="@+id/colorInd" />
+    <ImageView
+        android:src="@color/blue500"
+        android:layout_width="64dp"
+        android:layout_height="64dp"
+        android:layout_margin="2dp"
+        android:id="@+id/colorBlu" />
+    <ImageView
+        android:src="@color/lightblue500"
+        android:layout_width="64dp"
+        android:layout_height="64dp"
+        android:layout_margin="2dp"
+        android:id="@+id/colorLblu" />
+    <ImageView
+        android:src="@color/cyan500"
+        android:layout_width="64dp"
+        android:layout_height="64dp"
+        android:layout_margin="2dp"
+        android:id="@+id/colorCya" />
+    <ImageView
+        android:src="@color/teal500"
+        android:layout_width="64dp"
+        android:layout_height="64dp"
+        android:layout_margin="2dp"
+        android:id="@+id/colorTea" />
+    <ImageView
+        android:src="@color/green500"
+        android:layout_width="64dp"
+        android:layout_height="64dp"
+        android:layout_margin="2dp"
+        android:id="@+id/colorGre" />
+    <ImageView
+        android:src="@color/lightgreen500"
+        android:layout_width="64dp"
+        android:layout_height="64dp"
+        android:layout_margin="2dp"
+        android:id="@+id/colorLgre" />
+    <ImageView
+        android:src="@color/lime500"
+        android:layout_width="64dp"
+        android:layout_height="64dp"
+        android:layout_margin="2dp"
+        android:id="@+id/colorLim" />
+    <ImageView
+        android:src="@color/yellow500"
+        android:layout_width="64dp"
+        android:layout_height="64dp"
+        android:layout_margin="2dp"
+        android:id="@+id/colorYel" />
+    <ImageView
+        android:src="@color/amber500"
+        android:layout_width="64dp"
+        android:layout_height="64dp"
+        android:layout_margin="2dp"
+        android:id="@+id/colorAmb" />
+    <ImageView
+        android:src="@color/orange500"
+        android:layout_width="64dp"
+        android:layout_height="64dp"
+        android:layout_margin="2dp"
+        android:id="@+id/colorOra" />
+    <ImageView
+        android:src="@color/deeporange500"
+        android:layout_width="64dp"
+        android:layout_height="64dp"
+        android:layout_margin="2dp"
+        android:id="@+id/colorDora" />
+    <ImageView
+        android:src="@color/brown500"
+        android:layout_width="64dp"
+        android:layout_height="64dp"
+        android:layout_margin="2dp"
+        android:id="@+id/colorBro" />
+    <ImageView
+        android:src="@color/grey500"
+        android:layout_width="64dp"
+        android:layout_height="64dp"
+        android:layout_margin="2dp"
+        android:id="@+id/colorGrey" />
+    <ImageView
+        android:src="@color/bluegrey500"
+        android:layout_width="64dp"
+        android:layout_height="64dp"
+        android:layout_margin="2dp"
+        android:id="@+id/colorBgrey" />
+</GridLayout>

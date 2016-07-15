@@ -33,8 +33,7 @@ namespace LiveTilesWidget
             Palette palette = Palette.From(((BitmapDrawable)wall.Drawable).Bitmap).Generate();
 
             //获取存储的磁贴信息
-            var preference = context.GetSharedPreferences("tiles", FileCreationMode.Private);
-            var editor = preference.Edit();
+            var editor = new TilesPreferenceEditor(context);
 
             //将壁纸主色调写入存储
             int color;
@@ -50,20 +49,21 @@ namespace LiveTilesWidget
                     palette.VibrantSwatch,
                     palette.MutedSwatch
                 });
-                
+
                 if (color == -1)
                 {
                     color = Codes.GetMainColor(palette.Swatches);
                 }
             }
-            editor.PutInt("AutoTileColor", color);
-            editor.Commit();
+            editor.AutoTileColor = color;
 
             //更新所有磁贴
-            TilesPreferenceEditor editorTiles = new TilesPreferenceEditor(context);
-            foreach (var item in editorTiles.Tiles)
+            foreach (var item in editor.Tiles)
             {
-                Codes.UpdateTiles(item.Id, context, null, null);
+                if (item.TileColor == -1)
+                {
+                    Codes.UpdateTiles(item.Id, context, null, null);
+                }
             }
         }
     }

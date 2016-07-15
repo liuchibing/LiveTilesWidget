@@ -19,7 +19,7 @@ namespace LiveTilesWidget
     [Activity(Label = "选择一个应用", ConfigurationChanges = Android.Content.PM.ConfigChanges.Orientation)]
     public class AppPicker : ListActivity
     {
-        protected List<AppDetail> apps;
+        protected List<TileDetail> apps;
         private int Id;
         protected async override void OnCreate(Bundle savedInstanceState)
         {

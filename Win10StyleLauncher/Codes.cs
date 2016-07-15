@@ -56,15 +56,15 @@ namespace LiveTilesWidget
         /// </summary>
         /// <param name="manager">调用此方法的上下文的PackageManager属性</param>
         /// <returns>可被启动的应用的列表</returns>
-        public static List<AppDetail> LoadApps(PackageManager manager)
+        public static List<TileDetail> LoadApps(PackageManager manager)
         {
-            List<AppDetail> apps = new List<AppDetail>();
+            List<TileDetail> apps = new List<TileDetail>();
             Intent intentApps = new Intent(Intent.ActionMain, null);
             intentApps.AddCategory(Intent.CategoryLauncher);
             var availableActivities = manager.QueryIntentActivities(intentApps, 0);
             foreach (var item in availableActivities)
             {
-                AppDetail app = new AppDetail();
+                TileDetail app = new TileDetail();
                 app.Label = item.LoadLabel(manager);
                 app.Name = item.ActivityInfo.PackageName;
                 app.Icon = ((BitmapDrawable)item.ActivityInfo.LoadIcon(manager)).Bitmap;
@@ -80,11 +80,11 @@ namespace LiveTilesWidget
         /// <param name="context">当前上下文</param>
         /// <param name="notification">要在磁贴上显示的最新通知，没有则为null</param>
         /// <param name="icon">要在磁贴上显示的通知的图标，没有则为null</param>
-        public static void UpdateTiles(int id, Context context, object notification, Bitmap icon)
+        public static RemoteViews UpdateTiles(int id, Context context, object notification, Bitmap icon)
         {
             //读取记录的磁贴设置
             TilesPreferenceEditor editor = new TilesPreferenceEditor(context);
-            AppDetail tile = editor.GetTileById(id);
+            TileDetail tile = editor.GetTileById(id);
             var preference = context.GetSharedPreferences("tiles", FileCreationMode.Private);
 
             //根据不同情况创建RemoteViews对象
@@ -115,7 +115,7 @@ namespace LiveTilesWidget
                     //直接嵌入Notification的RemoteViews
                     views.AddView(Resource.Id.tileNotifParent, ((Notification)notification).ContentView);
                 }
-                else { return; }
+                else { return null; }
             }
             else //使用普通磁贴
             {
@@ -123,17 +123,26 @@ namespace LiveTilesWidget
                 //设置图标
                 views.SetImageViewBitmap(Resource.Id.tileIcon, tile.Icon);
             }
-            if (views == null) { return; }
+            if (views == null) { return null; }
 
             //设置应用名称
             views.SetTextViewText(Resource.Id.tileLabel, tile.Label);
             //设置背景色
-            if (tile.AutoTileColor)
+            int color;
+            switch (tile.TileColor)
             {
-                int color = preference.GetInt("AutoTileColor", 0x000000);
-                Bitmap bitmap = Bitmap.CreateBitmap(new int[] { color }, 1, 1, Bitmap.Config.Argb8888);
-                views.SetImageViewBitmap(Resource.Id.tileBackground, bitmap);
+                case -1://自动
+                    color = editor.AutoTileColor;
+                    break;
+                case -2://全局默认色
+                    color = editor.DefaultTileColor;
+                    break;
+                default:
+                    color = tile.TileColor;
+                    break;
             }
+            Bitmap bitmap = Bitmap.CreateBitmap(new int[] { color }, 1, 1, Bitmap.Config.Argb8888);
+            views.SetImageViewBitmap(Resource.Id.tileBackground, bitmap);
 
             //设置点击时执行的意图
             Intent intent = context.PackageManager.GetLaunchIntentForPackage(tile.Name);
@@ -143,6 +152,8 @@ namespace LiveTilesWidget
             //推送更新
             AppWidgetManager manager = AppWidgetManager.GetInstance(context);
             manager.UpdateAppWidget(id, views);
+
+            return views;
         }
 
         /// <summary>
@@ -202,6 +213,61 @@ namespace LiveTilesWidget
             PendingIntent pi = PendingIntent.GetService(context, 0, i, PendingIntentFlags.CancelCurrent);
             AlarmManager am = (AlarmManager)context.GetSystemService(Context.AlarmService);
             am.SetRepeating(AlarmType.ElapsedRealtimeWakeup, SystemClock.ElapsedRealtime(), 30 * 60 * 1000, pi);
+        }
+
+        /// <summary>
+        /// 获取SharedPreferences
+        /// </summary>
+        /// <param name="context"></param>
+        /// <returns></returns>
+        public static ISharedPreferences GetPreferences(Context context)
+        {
+            return context.GetSharedPreferences(Application.Context.PackageName + ".tiles", FileCreationMode.Private);
+        }
+
+        /// <summary>
+        /// 迁移旧版preferences数据至新版
+        /// </summary>
+        /// <param name="originVersion">原来的版本号</param>
+        /// <param name="context"></param>
+        public static void MovePreferences(int originVersion, Context context)
+        {
+            switch (originVersion)
+            {
+                case 0:
+                    var old = context.GetSharedPreferences("tiles", FileCreationMode.Private);
+                    var pref = GetPreferences(context);
+                    var editor = pref.Edit();
+                    editor.Clear();
+                    foreach (var item in old.All)
+                    {
+                        if (item.Value is bool)
+                        {
+                            editor.PutBoolean(item.Key, (bool)item.Value);
+                        }
+                        else if (item.Value is float)
+                        {
+                            editor.PutFloat(item.Key, (float)item.Value);
+                        }
+                        else if (item.Value is int)
+                        {
+                            editor.PutInt(item.Key, (int)item.Value);
+                        }
+                        else if (item.Value is long)
+                        {
+                            editor.PutLong(item.Key, (long)item.Value);
+                        }
+                        else if (item.Value is string)
+                        {
+                            editor.PutString(item.Key, (string)item.Value);
+                        }
+                        else if (item.Value is ICollection<string>)
+                        {
+                            editor.PutStringSet(item.Key, (ICollection<string>)item.Value);
+                        }
+                    }
+                    break;
+            }
         }
     }
 }

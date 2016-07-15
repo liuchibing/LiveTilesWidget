@@ -41,6 +41,100 @@ namespace LiveTilesWidget
 			}
 		}
 		
+		public partial class Color
+		{
+			
+			// aapt resource value: 0x7f050016
+			public const int accent = 2131034134;
+			
+			// aapt resource value: 0x7f05000d
+			public const int amber500 = 2131034125;
+			
+			// aapt resource value: 0x7f050005
+			public const int blue500 = 2131034117;
+			
+			// aapt resource value: 0x7f050012
+			public const int bluegrey500 = 2131034130;
+			
+			// aapt resource value: 0x7f050010
+			public const int brown500 = 2131034128;
+			
+			// aapt resource value: 0x7f050007
+			public const int cyan500 = 2131034119;
+			
+			// aapt resource value: 0x7f05000f
+			public const int deeporange500 = 2131034127;
+			
+			// aapt resource value: 0x7f050003
+			public const int deeppurple500 = 2131034115;
+			
+			// aapt resource value: 0x7f05001a
+			public const int divider = 2131034138;
+			
+			// aapt resource value: 0x7f050009
+			public const int green500 = 2131034121;
+			
+			// aapt resource value: 0x7f050011
+			public const int grey500 = 2131034129;
+			
+			// aapt resource value: 0x7f050019
+			public const int icons = 2131034137;
+			
+			// aapt resource value: 0x7f050004
+			public const int indigo500 = 2131034116;
+			
+			// aapt resource value: 0x7f050006
+			public const int lightblue500 = 2131034118;
+			
+			// aapt resource value: 0x7f05000a
+			public const int lightgreen500 = 2131034122;
+			
+			// aapt resource value: 0x7f05000b
+			public const int lime500 = 2131034123;
+			
+			// aapt resource value: 0x7f05000e
+			public const int orange500 = 2131034126;
+			
+			// aapt resource value: 0x7f050001
+			public const int pink500 = 2131034113;
+			
+			// aapt resource value: 0x7f050013
+			public const int primary = 2131034131;
+			
+			// aapt resource value: 0x7f050014
+			public const int primary_dark = 2131034132;
+			
+			// aapt resource value: 0x7f050015
+			public const int primary_light = 2131034133;
+			
+			// aapt resource value: 0x7f050017
+			public const int primary_text = 2131034135;
+			
+			// aapt resource value: 0x7f050002
+			public const int purple500 = 2131034114;
+			
+			// aapt resource value: 0x7f050000
+			public const int red500 = 2131034112;
+			
+			// aapt resource value: 0x7f050018
+			public const int secondary_text = 2131034136;
+			
+			// aapt resource value: 0x7f050008
+			public const int teal500 = 2131034120;
+			
+			// aapt resource value: 0x7f05000c
+			public const int yellow500 = 2131034124;
+			
+			static Color()
+			{
+				global::Android.Runtime.ResourceIdManager.UpdateIdValues();
+			}
+			
+			private Color()
+			{
+			}
+		}
+		
 		public partial class Drawable
 		{
 			
@@ -60,80 +154,152 @@ namespace LiveTilesWidget
 		public partial class Id
 		{
 			
-			// aapt resource value: 0x7f06000d
-			public const int btnChooseApp = 2131099661;
+			// aapt resource value: 0x7f080026
+			public const int btnChooseApp = 2131230758;
 			
-			// aapt resource value: 0x7f060017
-			public const int btnRefresh = 2131099671;
+			// aapt resource value: 0x7f08002f
+			public const int btnColor = 2131230767;
 			
-			// aapt resource value: 0x7f060016
-			public const int checkAutoColor = 2131099670;
+			// aapt resource value: 0x7f080028
+			public const int checkShowNotif = 2131230760;
 			
-			// aapt resource value: 0x7f06000f
-			public const int checkShowNotif = 2131099663;
+			// aapt resource value: 0x7f080029
+			public const int checkShowNotifIcon = 2131230761;
 			
-			// aapt resource value: 0x7f060010
-			public const int checkShowNotifIcon = 2131099664;
+			// aapt resource value: 0x7f080014
+			public const int colorAmb = 2131230740;
 			
-			// aapt resource value: 0x7f060014
-			public const int editRssUrl = 2131099668;
+			// aapt resource value: 0x7f080003
+			public const int colorAuto = 2131230723;
 			
-			// aapt resource value: 0x7f060000
-			public const int item_app_icon = 2131099648;
+			// aapt resource value: 0x7f080019
+			public const int colorBgrey = 2131230745;
 			
-			// aapt resource value: 0x7f060001
-			public const int item_app_label = 2131099649;
+			// aapt resource value: 0x7f08000c
+			public const int colorBlu = 2131230732;
 			
-			// aapt resource value: 0x7f060007
-			public const int linearLayout1 = 2131099655;
+			// aapt resource value: 0x7f080017
+			public const int colorBro = 2131230743;
 			
-			// aapt resource value: 0x7f060008
-			public const int listTiles = 2131099656;
+			// aapt resource value: 0x7f08000e
+			public const int colorCya = 2131230734;
 			
-			// aapt resource value: 0x7f060011
-			public const int radioGroupTileType = 2131099665;
+			// aapt resource value: 0x7f080005
+			public const int colorDefault = 2131230725;
 			
-			// aapt resource value: 0x7f060012
-			public const int radioTypeNone = 2131099666;
+			// aapt resource value: 0x7f080016
+			public const int colorDora = 2131230742;
 			
-			// aapt resource value: 0x7f060013
-			public const int radioTypeRss = 2131099667;
+			// aapt resource value: 0x7f08000a
+			public const int colorDpur = 2131230730;
 			
-			// aapt resource value: 0x7f06000b
-			public const int textView1 = 2131099659;
+			// aapt resource value: 0x7f080010
+			public const int colorGre = 2131230736;
 			
-			// aapt resource value: 0x7f06000c
-			public const int textView2 = 2131099660;
+			// aapt resource value: 0x7f080018
+			public const int colorGrey = 2131230744;
 			
-			// aapt resource value: 0x7f060015
-			public const int textView3 = 2131099669;
+			// aapt resource value: 0x7f08000b
+			public const int colorInd = 2131230731;
 			
-			// aapt resource value: 0x7f06000e
-			public const int textView4 = 2131099662;
+			// aapt resource value: 0x7f08000d
+			public const int colorLblu = 2131230733;
 			
-			// aapt resource value: 0x7f060003
-			public const int tileBackground = 2131099651;
+			// aapt resource value: 0x7f080011
+			public const int colorLgre = 2131230737;
 			
-			// aapt resource value: 0x7f060009
-			public const int tileIcon = 2131099657;
+			// aapt resource value: 0x7f080012
+			public const int colorLim = 2131230738;
 			
-			// aapt resource value: 0x7f060006
-			public const int tileLabel = 2131099654;
+			// aapt resource value: 0x7f080015
+			public const int colorOra = 2131230741;
 			
-			// aapt resource value: 0x7f060004
-			public const int tileNotifIcon = 2131099652;
+			// aapt resource value: 0x7f080002
+			public const int colorPickerRoot = 2131230722;
 			
-			// aapt resource value: 0x7f060018
-			public const int tileNotifParent = 2131099672;
+			// aapt resource value: 0x7f080008
+			public const int colorPin = 2131230728;
 			
-			// aapt resource value: 0x7f060005
-			public const int tileNotifText = 2131099653;
+			// aapt resource value: 0x7f080009
+			public const int colorPur = 2131230729;
 			
-			// aapt resource value: 0x7f06000a
-			public const int tileNotification = 2131099658;
+			// aapt resource value: 0x7f080007
+			public const int colorRed = 2131230727;
 			
-			// aapt resource value: 0x7f060002
-			public const int tileRoot = 2131099650;
+			// aapt resource value: 0x7f08000f
+			public const int colorTea = 2131230735;
+			
+			// aapt resource value: 0x7f080013
+			public const int colorYel = 2131230739;
+			
+			// aapt resource value: 0x7f08002d
+			public const int editRssUrl = 2131230765;
+			
+			// aapt resource value: 0x7f080004
+			public const int imgAuto = 2131230724;
+			
+			// aapt resource value: 0x7f080006
+			public const int imgDefault = 2131230726;
+			
+			// aapt resource value: 0x7f080000
+			public const int item_app_icon = 2131230720;
+			
+			// aapt resource value: 0x7f080001
+			public const int item_app_label = 2131230721;
+			
+			// aapt resource value: 0x7f08001f
+			public const int linearLayout1 = 2131230751;
+			
+			// aapt resource value: 0x7f080020
+			public const int listTiles = 2131230752;
+			
+			// aapt resource value: 0x7f08002a
+			public const int radioGroupTileType = 2131230762;
+			
+			// aapt resource value: 0x7f08002b
+			public const int radioTypeNone = 2131230763;
+			
+			// aapt resource value: 0x7f08002c
+			public const int radioTypeRss = 2131230764;
+			
+			// aapt resource value: 0x7f080023
+			public const int scrollView1 = 2131230755;
+			
+			// aapt resource value: 0x7f080024
+			public const int textView1 = 2131230756;
+			
+			// aapt resource value: 0x7f080025
+			public const int textView2 = 2131230757;
+			
+			// aapt resource value: 0x7f08002e
+			public const int textView3 = 2131230766;
+			
+			// aapt resource value: 0x7f080027
+			public const int textView4 = 2131230759;
+			
+			// aapt resource value: 0x7f08001b
+			public const int tileBackground = 2131230747;
+			
+			// aapt resource value: 0x7f080021
+			public const int tileIcon = 2131230753;
+			
+			// aapt resource value: 0x7f08001e
+			public const int tileLabel = 2131230750;
+			
+			// aapt resource value: 0x7f08001c
+			public const int tileNotifIcon = 2131230748;
+			
+			// aapt resource value: 0x7f080030
+			public const int tileNotifParent = 2131230768;
+			
+			// aapt resource value: 0x7f08001d
+			public const int tileNotifText = 2131230749;
+			
+			// aapt resource value: 0x7f080022
+			public const int tileNotification = 2131230754;
+			
+			// aapt resource value: 0x7f08001a
+			public const int tileRoot = 2131230746;
 			
 			static Id()
 			{
@@ -152,22 +318,25 @@ namespace LiveTilesWidget
 			public const int AppPickerItems = 2130903040;
 			
 			// aapt resource value: 0x7f030001
-			public const int IconNotifTile = 2130903041;
+			public const int ColorPicker = 2130903041;
 			
 			// aapt resource value: 0x7f030002
-			public const int Main = 2130903042;
+			public const int IconNotifTile = 2130903042;
 			
 			// aapt resource value: 0x7f030003
-			public const int NormalTile = 2130903043;
+			public const int Main = 2130903043;
 			
 			// aapt resource value: 0x7f030004
-			public const int TextNotifTile = 2130903044;
+			public const int NormalTile = 2130903044;
 			
 			// aapt resource value: 0x7f030005
-			public const int TileSettings = 2130903045;
+			public const int TextNotifTile = 2130903045;
 			
 			// aapt resource value: 0x7f030006
-			public const int ViewNotifTile = 2130903046;
+			public const int TileSettings = 2130903046;
+			
+			// aapt resource value: 0x7f030007
+			public const int ViewNotifTile = 2130903047;
 			
 			static Layout()
 			{
@@ -182,11 +351,11 @@ namespace LiveTilesWidget
 		public partial class String
 		{
 			
-			// aapt resource value: 0x7f050001
-			public const int ApplicationName = 2131034113;
+			// aapt resource value: 0x7f060001
+			public const int ApplicationName = 2131099649;
 			
-			// aapt resource value: 0x7f050000
-			public const int Hello = 2131034112;
+			// aapt resource value: 0x7f060000
+			public const int Hello = 2131099648;
 			
 			static String()
 			{
@@ -194,6 +363,22 @@ namespace LiveTilesWidget
 			}
 			
 			private String()
+			{
+			}
+		}
+		
+		public partial class Style
+		{
+			
+			// aapt resource value: 0x7f070000
+			public const int Theme_Custom = 2131165184;
+			
+			static Style()
+			{
+				global::Android.Runtime.ResourceIdManager.UpdateIdValues();
+			}
+			
+			private Style()
 			{
 			}
 		}

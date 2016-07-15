@@ -74,11 +74,12 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AppDetail.cs" />
+    <Compile Include="TileDetail.cs" />
     <Compile Include="AppListAdapter.cs" />
     <Compile Include="AppPicker.cs" />
     <Compile Include="CharacterParser.cs" />
     <Compile Include="Codes.cs" />
+    <Compile Include="ColorPicker.cs" />
     <Compile Include="PinyinComparer.cs" />
     <Compile Include="NotificationService.cs" />
     <Compile Include="ReadRss.cs" />
@@ -114,6 +115,9 @@
     <AndroidResource Include="Resources\layout\IconNotifTile.axml">
       <SubType>AndroidResource</SubType>
     </AndroidResource>
+    <AndroidResource Include="Resources\layout\ColorPicker.axml">
+      <SubType>AndroidResource</SubType>
+    </AndroidResource>
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\layout\Main.axml" />
@@ -125,7 +129,9 @@
     <AndroidResource Include="Resources\drawable\Icon.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Properties\AndroidManifest.xml" />
+    <None Include="Properties\AndroidManifest.xml">
+      <SubType>Designer</SubType>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\xml\normal_tile.xml">
@@ -137,6 +143,16 @@
       <Visible>False</Visible>
       <Version>23.2.1</Version>
     </XamarinComponentReference>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\values\color.xml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\values\theme.xml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -16,9 +16,9 @@ namespace LiveTilesWidget
      * 感谢CSDN博主“xiaanming”的文章 http://blog.csdn.net/xiaanming/article/details/12684155 
      * 本程序部分代码是经过学习该文章的Java代码后以C#语言写出的。
      */
-    public class PinyinComparer : IComparer<AppDetail>//Comparator<SortModel> {
+    public class PinyinComparer : IComparer<TileDetail>//Comparator<SortModel> {
     {
-        public int Compare(AppDetail x, AppDetail y)
+        public int Compare(TileDetail x, TileDetail y)
         {
             //这里主要是用来对ListView里面的数据根据ABCDEFG...来排序
             if (y.GetSortLetters() == "#")

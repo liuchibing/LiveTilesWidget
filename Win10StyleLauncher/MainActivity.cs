@@ -58,7 +58,7 @@ namespace LiveTilesWidget
             base.OnResume();
 
             //在任何重新进入应用的情况下重新加载磁贴列表
-                LoadTiles();
+            LoadTiles();
         }
 
         /// <summary>
@@ -110,11 +110,13 @@ namespace LiveTilesWidget
 
         public override bool OnCreateOptionsMenu(IMenu menu)
         {
-            var option1 = menu.Add(0, 0, 0, "设置壁纸为必应美图");
+            var option0 = menu.Add(0, 3, 0, "设置全局自定义颜色");
+            option0.SetShowAsAction(ShowAsAction.Always);
+            var option1 = menu.Add(0, 0, 1, "设置壁纸为必应美图");
             option1.SetShowAsAction(ShowAsAction.CollapseActionView);
-            var option2 = menu.Add(0, 1, 1, "发送通知测试");
+            var option2 = menu.Add(0, 1, 2, "发送通知测试");
             option2.SetShowAsAction(ShowAsAction.CollapseActionView);
-            var option3 = menu.Add(0, 2, 2, "Debug Reset");
+            var option3 = menu.Add(0, 2, 3, "Debug Reset");
             option3.SetShowAsAction(ShowAsAction.CollapseActionView);
 
             return base.OnCreateOptionsMenu(menu);
@@ -140,10 +142,10 @@ namespace LiveTilesWidget
                 case 2://Debug Reset
                     AlertDialog.Builder dialog = new AlertDialog.Builder(this);
                     dialog.SetIcon(Resource.Drawable.Icon);
-                    dialog.SetTitle("确定重置？");
+                    dialog.SetTitle("重置应用存储？");
                     dialog.SetMessage("此功能仅当在开发过程中使用，请慎重。");
                     dialog.SetCancelable(true);
-                    dialog.SetPositiveButton("确定", (sender, e) =>
+                    dialog.SetPositiveButton("确定重置", (sender, e) =>
                     {
                         //清除所有preference数据
                         var preference = GetSharedPreferences("tiles", FileCreationMode.Private);
@@ -155,9 +157,36 @@ namespace LiveTilesWidget
                     dialog.SetNegativeButton("取消", (sender, e) => { });
                     dialog.Show();
                     break;
+                case 3://设置全局自定义色
+                    Intent intent = new Intent(this, typeof(ColorPicker));
+                    intent.PutExtra("IsSettingDefaultColor", true);
+                    StartActivityForResult(intent, 0);
+                    break;
             }
 
             return base.OnOptionsItemSelected(item);
+        }
+
+        protected override void OnActivityResult(int requestCode, [GeneratedEnum] Result resultCode, Intent data)
+        {
+            if (resultCode == Result.Ok)
+            {
+                switch (requestCode)
+                {
+                    case 0://设置全局自定义色
+                        TilesPreferenceEditor editor = new TilesPreferenceEditor(this);
+                        editor.DefaultTileColor = data.GetIntExtra("Color", Resource.Color.cyan500);
+                        //更新所有使用全局自定义色的磁贴
+                        foreach (var item in editor.Tiles)
+                        {
+                            if (item.TileColor == -2)
+                            {
+                                Codes.UpdateTiles(item.Id, this, null, null);
+                            }
+                        }
+                        break;
+                }
+            }
         }
     }
 }
