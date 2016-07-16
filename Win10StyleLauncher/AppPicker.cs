@@ -27,6 +27,12 @@ namespace LiveTilesWidget
             SetResult(Result.Canceled);
             base.OnCreate(savedInstanceState);
 
+            //使通知栏与应用标题栏颜色一致
+            if (Build.VERSION.SdkInt >= BuildVersionCodes.Kitkat)
+            {
+                Window.AddFlags(WindowManagerFlags.DrawsSystemBarBackgrounds);
+            }
+
             ListView.Visibility = ViewStates.Invisible;
             await Task.Run(() =>
             {

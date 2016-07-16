@@ -26,6 +26,12 @@ namespace LiveTilesWidget
 
             SetContentView(Resource.Layout.ColorPicker);
 
+            //使通知栏与应用标题栏颜色一致
+            if (Build.VERSION.SdkInt >= BuildVersionCodes.Kitkat)
+            {
+                Window.AddFlags(WindowManagerFlags.DrawsSystemBarBackgrounds);
+            }
+
             int color;
             TilesPreferenceEditor editor = new TilesPreferenceEditor(this, true);
             //如果是从Main启动的

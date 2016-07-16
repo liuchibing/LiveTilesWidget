@@ -28,6 +28,12 @@ namespace LiveTilesWidget
             // Set our view from the "main" layout resource
             SetContentView(Resource.Layout.Main);
 
+            //使通知栏与应用标题栏颜色一致
+            if (Build.VERSION.SdkInt >= BuildVersionCodes.Kitkat)
+            {
+                Window.AddFlags(WindowManagerFlags.DrawsSystemBarBackgrounds);
+            }
+
             //获取正在运行的服务，检查NotificationService是否正在运行
             bool Servicerunning = false;
             ActivityManager manager = (ActivityManager)GetSystemService(ActivityService);

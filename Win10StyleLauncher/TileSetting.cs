@@ -49,6 +49,12 @@ namespace LiveTilesWidget
 
             SetContentView(Resource.Layout.TileSettings);
 
+            //使通知栏与应用标题栏颜色一致
+            if (Build.VERSION.SdkInt >= BuildVersionCodes.Kitkat)
+            {
+                Window.AddFlags(WindowManagerFlags.DrawsSystemBarBackgrounds);
+            }
+
             //页面上的控件
             Button btnChooseApp = FindViewById<Button>(Resource.Id.btnChooseApp);
             CheckBox checkShowNotif = FindViewById<CheckBox>(Resource.Id.checkShowNotif);
