@@ -10,6 +10,7 @@ using Android.Runtime;
 using Android.Views;
 using Android.Widget;
 using System.Threading.Tasks;
+using System.Threading;
 
 namespace LiveTilesWidget
 {
@@ -33,7 +34,9 @@ namespace LiveTilesWidget
                 Window.AddFlags(WindowManagerFlags.DrawsSystemBarBackgrounds);
             }
 
-            ListView.Visibility = ViewStates.Invisible;
+            ListView.Visibility = ViewStates.Gone;
+            var progressBar = new ProgressBar(this);
+            AddContentView(progressBar, new ViewGroup.LayoutParams(-1,-2));
             await Task.Run(() =>
             {
                 //加载应用列表
@@ -46,6 +49,8 @@ namespace LiveTilesWidget
             ListView.FastScrollEnabled = true;
             ListView.FastScrollAlwaysVisible = true;
             ListAdapter = new AppListAdapter(this, Resource.Layout.AppPickerItems, apps.ToArray());
+            Thread.Sleep(2000);
+            progressBar.Visibility = ViewStates.Gone;
             ListView.Visibility = ViewStates.Visible;
 
             //从Extra中获取要进行自定义设置的AppWidgetId

@@ -17,6 +17,7 @@ using System.Net;
 using System.Threading.Tasks;
 using Android.Support.V7.Graphics;
 using static Android.Support.V7.Graphics.Palette;
+using System.Xml;
 
 namespace LiveTilesWidget
 {
@@ -30,18 +31,16 @@ namespace LiveTilesWidget
         /// <param name="appWidgetIds"></param>
         public static void InitializeTile(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds)
         {
-            var preference = context.GetSharedPreferences("tiles", FileCreationMode.Private);
-
             //创建RemoteViews对象，并设置初始化值
             RemoteViews views = new RemoteViews(context.PackageName, Resource.Layout.NormalTile);
             //设置内容
             views.SetTextViewText(Resource.Id.tileLabel, "设置此磁贴" + appWidgetIds[0]);
             views.SetViewVisibility(Resource.Id.tileNotification, ViewStates.Invisible);
             //设置背景色
-            int color = preference.GetInt("AutoTileColor", 0x000000);
-            Bitmap bitmap = Bitmap.CreateBitmap(new int[] { color }, 1, 1, Bitmap.Config.Argb8888);
-            views.SetImageViewBitmap(Resource.Id.tileBackground, bitmap);
-            //设置点击时执行的意图
+            //int color = preference.GetInt("AutoTileColor", 0x000000);
+            //Bitmap bitmap = Bitmap.CreateBitmap(new int[] { color }, 1, 1, Bitmap.Config.Argb8888);
+            //views.SetImageViewBitmap(Resource.Id.tileBackground, bitmap);
+            ////设置点击时执行的意图
             Intent intent = new Intent(context, typeof(TileSetting));
             intent.PutExtra(AppWidgetManager.ExtraAppwidgetId, appWidgetIds[0]);//将Id传给Activity以便进行设置
             PendingIntent pintent = PendingIntent.GetActivity(context, 0, intent, PendingIntentFlags.UpdateCurrent);
@@ -76,16 +75,15 @@ namespace LiveTilesWidget
         /// <summary>
         /// 刷新磁贴小部件
         /// </summary>
-        /// <param name="id">小部件的Id</param>
+        /// <param name="id">小部件的Id或存储小部件配置的TileDetail对象，若传入TileDetail对象则被视为请求磁贴预览，不会真的推送小部件更新</param>
         /// <param name="context">当前上下文</param>
         /// <param name="notification">要在磁贴上显示的最新通知，没有则为null</param>
         /// <param name="icon">要在磁贴上显示的通知的图标，没有则为null</param>
-        public static RemoteViews UpdateTiles(int id, Context context, object notification, Bitmap icon)
+        public static RemoteViews UpdateTiles(object id, Context context, object notification, Bitmap icon)
         {
             //读取记录的磁贴设置
             TilesPreferenceEditor editor = new TilesPreferenceEditor(context);
-            TileDetail tile = editor.GetTileById(id);
-            var preference = context.GetSharedPreferences("tiles", FileCreationMode.Private);
+            TileDetail tile = (id is TileDetail) ? id as TileDetail : editor.GetTileById((int)id);
 
             //根据不同情况创建RemoteViews对象
             RemoteViews views;
@@ -149,9 +147,12 @@ namespace LiveTilesWidget
             PendingIntent pintent = PendingIntent.GetActivity(context, 0, intent, PendingIntentFlags.UpdateCurrent);
             views.SetOnClickPendingIntent(Resource.Id.tileRoot, pintent);
 
-            //推送更新
-            AppWidgetManager manager = AppWidgetManager.GetInstance(context);
-            manager.UpdateAppWidget(id, views);
+            if (id is int)
+            {
+                //推送更新
+                AppWidgetManager manager = AppWidgetManager.GetInstance(context);
+                manager.UpdateAppWidget((int)id, views);
+            }
 
             return views;
         }
@@ -208,7 +209,7 @@ namespace LiveTilesWidget
         /// <param name="context"></param>
         public static void ArrangeRssUpdate(Service context)
         {
-            Intent i = new Intent(context, typeof(ReadRss));
+            Intent i = new Intent(context, typeof(AutoUpdateTileService));
             i.SetAction("com.LiveTilesWidget.UpdateRss");
             PendingIntent pi = PendingIntent.GetService(context, 0, i, PendingIntentFlags.CancelCurrent);
             AlarmManager am = (AlarmManager)context.GetSystemService(Context.AlarmService);
@@ -267,6 +268,82 @@ namespace LiveTilesWidget
                         }
                     }
                     break;
+            }
+        }
+
+        /// <summary>
+        /// 从指定rss url读取其中第一项的标题和图片
+        /// </summary>
+        /// <param name="url"></param>
+        /// <param name="text"></param>
+        /// <param name="img"></param>
+        public static void ReadRss(string url, out string text, out Bitmap img)
+        {
+            //http://api.ithome.com/xml/newslist/news.xml
+            text = null;
+            string imgUrl = null;
+            //开始rss解析
+            try
+            {
+                using (XmlTextReader reader = new XmlTextReader(url))
+                {
+                    bool read = false;
+                    while (reader.Read())
+                    {
+                        if (reader.NodeType == XmlNodeType.Element)
+                        {
+                            switch (reader.Name)
+                            {
+                                case "entry":
+                                case "item":
+                                    read = true;
+                                    continue;
+                                case "title":
+                                    if (read == true)
+                                    {
+                                        text = reader.ReadElementContentAsString();
+                                    }
+                                    break;
+                                //case "summary":
+                                //case "description":
+                                //    if (read == true)
+                                //    {
+                                //        text += "\n" + reader.ReadElementContentAsString().Trim();
+                                //    }
+                                //    break;
+                                case "image":
+                                    if (read == true)
+                                    {
+                                        imgUrl = reader.ReadElementContentAsString();
+                                    }
+                                    break;
+                            }
+                        }
+                        else if (reader.NodeType == XmlNodeType.EndElement)
+                        {
+                            if (reader.Name == "item" || reader.Name == "entry")
+                            {
+                                read = false;
+                                break;
+                            }
+                        }
+                    }
+                }
+            }
+            catch
+            {
+
+            }
+            img = null;
+            if (imgUrl != null)
+            {
+                try
+                {
+                    WebClient wc = new WebClient();
+                    byte[] buffer = wc.DownloadData(imgUrl);
+                    img = BitmapFactory.DecodeByteArray(buffer, 0, buffer.Length);
+                }
+                catch { }
             }
         }
     }

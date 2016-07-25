@@ -30,7 +30,7 @@ namespace LiveTilesWidget
 
             //获取壁纸，并由此生成调色板
             WallpaperManager wall = WallpaperManager.GetInstance(context);
-            Palette palette = Palette.From(((BitmapDrawable)wall.Drawable).Bitmap).Generate();
+            Palette palette = From(((BitmapDrawable)wall.Drawable).Bitmap).Generate();
 
             //获取存储的磁贴信息
             var editor = new TilesPreferenceEditor(context);

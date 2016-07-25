@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.ComponentModel;
 
 using Android.App;
 using Android.Content;
@@ -12,6 +13,8 @@ using Android.Widget;
 using Android.Appwidget;
 using Android.Graphics;
 using Android.Util;
+using Android.Graphics.Drawables;
+using System.Threading.Tasks;
 
 namespace LiveTilesWidget
 {
@@ -62,6 +65,57 @@ namespace LiveTilesWidget
             RadioGroup radioGroupTileType = FindViewById<RadioGroup>(Resource.Id.radioGroupTileType);
             EditText editRssUrl = FindViewById<EditText>(Resource.Id.editRssUrl);
             Button btnColor = FindViewById<Button>(Resource.Id.btnColor);
+            GridLayout gridPreview = FindViewById<GridLayout>(Resource.Id.gridPreview);
+            FrameLayout framePreviewNormal = FindViewById<FrameLayout>(Resource.Id.framePreviewNormal);
+            FrameLayout framePreviewWide = FindViewById<FrameLayout>(Resource.Id.framePreviewWide);
+
+            //更新磁贴预览的Action
+            Action updatePreview = async () =>
+            {
+                //清除上个预览
+                framePreviewNormal.RemoveAllViews();
+                framePreviewWide.RemoveAllViews();
+                //更新普通磁贴
+                framePreviewNormal.AddView(Codes.UpdateTiles(tile, this, null, null).Apply(this, framePreviewNormal));
+                //更新带动态内容的磁贴
+                switch (tile.TileType)
+                {
+                    case LiveTileType.None:
+                        //更新带通知的磁贴
+                        if (tile.ShowNotification)
+                        {
+                            string text = "通知标题\n通知内容";
+                            //推送动态磁贴小部件更新
+                            if (tile.ShowNotifIcon) //是否允许显示图标
+                            {
+                                framePreviewWide.AddView(Codes.UpdateTiles(tile, this, text, ((BitmapDrawable)GetDrawable(Resource.Drawable.Icon)).Bitmap).Apply(this, framePreviewWide));
+                            }
+                            else
+                            {
+                                framePreviewWide.AddView(Codes.UpdateTiles(tile, this, text, null).Apply(this, framePreviewWide));
+                            }
+                        }
+                        else
+                        {
+                            framePreviewWide.AddView(Codes.UpdateTiles(tile, this, null, null).Apply(this, framePreviewWide));
+                        }
+                        break;
+                    case LiveTileType.Rss:
+                        string textRss = null;
+                        Bitmap img = null;
+                        await Task.Run(() =>
+                       {
+                           Codes.ReadRss(tile.RssUrl, out textRss, out img);
+                       });
+                        //更新小部件预览
+                        framePreviewWide.AddView(Codes.UpdateTiles(tile, this, textRss, img).Apply(this, framePreviewWide));
+                        break;
+                }
+            };
+
+            //将预览区域背景设置为桌面壁纸
+            WallpaperManager wall = WallpaperManager.GetInstance(this);
+            gridPreview.Background = wall.Drawable;
 
             //获取存储的磁贴信息
             editor = new TilesPreferenceEditor(this);
@@ -124,29 +178,41 @@ namespace LiveTilesWidget
                     }
                     btnColor.Text = colorName;
                     btnColor.SetBackgroundColor(new Color(color));
+                    updatePreview();
                 }
                 catch { }
             }
 
+            ////将预览区域高度设置为屏幕高度的6分之1
+            //DisplayMetrics dm = new DisplayMetrics();
+            //WindowManager.DefaultDisplay.GetMetrics(dm);
+
+
+            //订阅tile对象的属性改变事件以便更新磁贴预览
+            tile.PropertyChanged += (sender, e) =>
+            {
+                updatePreview();
+            };
+
             //点击按钮时跳转到选择应用的Activity
             btnChooseApp.Click += (sender, e) =>
-            {
-                Intent intent = new Intent(this, typeof(AppPicker));
-                intent.PutExtra("id", id);//把要设置的磁贴的Id传给Activity
-                StartActivityForResult(intent, 0);
-            };
+                {
+                    Intent intent = new Intent(this, typeof(AppPicker));
+                    intent.PutExtra("id", id);//把要设置的磁贴的Id传给Activity
+                    StartActivityForResult(intent, 0);
+                };
             //点击按钮时跳转到选择颜色的Activity
             btnColor.Click += (sender, e) =>
-            {
-                Intent intent = new Intent(this, typeof(ColorPicker));
-                StartActivityForResult(intent, 1);
-            };
+                    {
+                        Intent intent = new Intent(this, typeof(ColorPicker));
+                        StartActivityForResult(intent, 1);
+                    };
 
             //勾选状态更改时保存设置
             checkShowNotif.CheckedChange += (sender, e) =>
-            {
-                tile.ShowNotification = checkShowNotif.Checked;
-            };
+                        {
+                            tile.ShowNotification = checkShowNotif.Checked;
+                        };
             checkShowNotifIcon.CheckedChange += (sender, e) =>
             {
                 tile.ShowNotifIcon = checkShowNotifIcon.Checked;
@@ -195,7 +261,6 @@ namespace LiveTilesWidget
                         //根据一些应用自动推荐动态磁贴类型
                         switch (label)
                         {
-                            case "动态磁贴10":
                             case "IT之家":
                                 FindViewById<RadioGroup>(Resource.Id.radioGroupTileType).Check(Resource.Id.radioTypeRss);
                                 FindViewById<EditText>(Resource.Id.editRssUrl).Text = @"http://api.ithome.com/xml/newslist/news.xml";
@@ -264,7 +329,7 @@ namespace LiveTilesWidget
                     }
                     editor.CommitChanges();
                     Codes.UpdateTiles(id, this, null, null);
-                    Intent iRss = new Intent(this, typeof(ReadRss));
+                    Intent iRss = new Intent(this, typeof(AutoUpdateTileService));
                     iRss.SetAction("com.LiveTilesWidget.UpdateRss");
                     StartService(iRss);
 

@@ -82,7 +82,7 @@
     <Compile Include="ColorPicker.cs" />
     <Compile Include="PinyinComparer.cs" />
     <Compile Include="NotificationService.cs" />
-    <Compile Include="ReadRss.cs" />
+    <Compile Include="AutoUpdateTileService.cs" />
     <Compile Include="SetWallpaper.cs" />
     <Compile Include="TileSetting.cs" />
     <Compile Include="MainActivity.cs" />
@@ -116,6 +116,9 @@
       <SubType>AndroidResource</SubType>
     </AndroidResource>
     <AndroidResource Include="Resources\layout\ColorPicker.axml">
+      <SubType>AndroidResource</SubType>
+    </AndroidResource>
+    <AndroidResource Include="Resources\layout\LoadingListAnim.axml">
       <SubType>AndroidResource</SubType>
     </AndroidResource>
   </ItemGroup>
