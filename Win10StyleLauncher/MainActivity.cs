@@ -34,6 +34,8 @@ namespace LiveTilesWidget
                 Window.AddFlags(WindowManagerFlags.DrawsSystemBarBackgrounds);
             }
 
+            FindViewById<TextView>(Resource.Id.textNone).Visibility = ViewStates.Gone;
+
             //获取正在运行的服务，检查NotificationService是否正在运行
             bool Servicerunning = false;
             ActivityManager manager = (ActivityManager)GetSystemService(ActivityService);
@@ -100,7 +102,13 @@ namespace LiveTilesWidget
                 };
                 listTiles.FastScrollEnabled = true;
                 listTiles.FastScrollAlwaysVisible = true;
+                FindViewById<ProgressBar>(Resource.Id.progressBar1).Visibility = ViewStates.Gone;
                 listTiles.Visibility = ViewStates.Visible;
+            }
+            else
+            {
+                FindViewById<ProgressBar>(Resource.Id.progressBar1).Visibility = ViewStates.Gone;
+                FindViewById<TextView>(Resource.Id.textNone).Visibility = ViewStates.Visible;
             }
         }
 

@@ -154,17 +154,17 @@ namespace LiveTilesWidget
 		public partial class Id
 		{
 			
-			// aapt resource value: 0x7f08002b
-			public const int btnChooseApp = 2131230763;
+			// aapt resource value: 0x7f08002c
+			public const int btnChooseApp = 2131230764;
 			
-			// aapt resource value: 0x7f080034
-			public const int btnColor = 2131230772;
-			
-			// aapt resource value: 0x7f08002d
-			public const int checkShowNotif = 2131230765;
+			// aapt resource value: 0x7f080035
+			public const int btnColor = 2131230773;
 			
 			// aapt resource value: 0x7f08002e
-			public const int checkShowNotifIcon = 2131230766;
+			public const int checkShowNotif = 2131230766;
+			
+			// aapt resource value: 0x7f08002f
+			public const int checkShowNotifIcon = 2131230767;
 			
 			// aapt resource value: 0x7f080014
 			public const int colorAmb = 2131230740;
@@ -232,17 +232,17 @@ namespace LiveTilesWidget
 			// aapt resource value: 0x7f080013
 			public const int colorYel = 2131230739;
 			
-			// aapt resource value: 0x7f080032
-			public const int editRssUrl = 2131230770;
-			
-			// aapt resource value: 0x7f080026
-			public const int framePreviewNormal = 2131230758;
+			// aapt resource value: 0x7f080033
+			public const int editRssUrl = 2131230771;
 			
 			// aapt resource value: 0x7f080027
-			public const int framePreviewWide = 2131230759;
+			public const int framePreviewNormal = 2131230759;
 			
-			// aapt resource value: 0x7f080025
-			public const int gridPreview = 2131230757;
+			// aapt resource value: 0x7f080028
+			public const int framePreviewWide = 2131230760;
+			
+			// aapt resource value: 0x7f080026
+			public const int gridPreview = 2131230758;
 			
 			// aapt resource value: 0x7f080004
 			public const int imgAuto = 2131230724;
@@ -259,44 +259,47 @@ namespace LiveTilesWidget
 			// aapt resource value: 0x7f080021
 			public const int linearLayout1 = 2131230753;
 			
-			// aapt resource value: 0x7f080022
-			public const int listTiles = 2131230754;
+			// aapt resource value: 0x7f080023
+			public const int listTiles = 2131230755;
 			
 			// aapt resource value: 0x7f080020
 			public const int progressBar1 = 2131230752;
 			
-			// aapt resource value: 0x7f08002f
-			public const int radioGroupTileType = 2131230767;
-			
 			// aapt resource value: 0x7f080030
-			public const int radioTypeNone = 2131230768;
+			public const int radioGroupTileType = 2131230768;
 			
 			// aapt resource value: 0x7f080031
-			public const int radioTypeRss = 2131230769;
+			public const int radioTypeNone = 2131230769;
+			
+			// aapt resource value: 0x7f080032
+			public const int radioTypeRss = 2131230770;
 			
 			// aapt resource value: 0x7f08001f
 			public const int relativeLayout1 = 2131230751;
 			
-			// aapt resource value: 0x7f080028
-			public const int scrollView1 = 2131230760;
-			
 			// aapt resource value: 0x7f080029
-			public const int textView1 = 2131230761;
+			public const int scrollView1 = 2131230761;
+			
+			// aapt resource value: 0x7f080022
+			public const int textNone = 2131230754;
 			
 			// aapt resource value: 0x7f08002a
-			public const int textView2 = 2131230762;
+			public const int textView1 = 2131230762;
 			
-			// aapt resource value: 0x7f080033
-			public const int textView3 = 2131230771;
+			// aapt resource value: 0x7f08002b
+			public const int textView2 = 2131230763;
 			
-			// aapt resource value: 0x7f08002c
-			public const int textView4 = 2131230764;
+			// aapt resource value: 0x7f080034
+			public const int textView3 = 2131230772;
+			
+			// aapt resource value: 0x7f08002d
+			public const int textView4 = 2131230765;
 			
 			// aapt resource value: 0x7f08001b
 			public const int tileBackground = 2131230747;
 			
-			// aapt resource value: 0x7f080023
-			public const int tileIcon = 2131230755;
+			// aapt resource value: 0x7f080024
+			public const int tileIcon = 2131230756;
 			
 			// aapt resource value: 0x7f08001e
 			public const int tileLabel = 2131230750;
@@ -304,14 +307,14 @@ namespace LiveTilesWidget
 			// aapt resource value: 0x7f08001c
 			public const int tileNotifIcon = 2131230748;
 			
-			// aapt resource value: 0x7f080035
-			public const int tileNotifParent = 2131230773;
+			// aapt resource value: 0x7f080036
+			public const int tileNotifParent = 2131230774;
 			
 			// aapt resource value: 0x7f08001d
 			public const int tileNotifText = 2131230749;
 			
-			// aapt resource value: 0x7f080024
-			public const int tileNotification = 2131230756;
+			// aapt resource value: 0x7f080025
+			public const int tileNotification = 2131230757;
 			
 			// aapt resource value: 0x7f08001a
 			public const int tileRoot = 2131230746;

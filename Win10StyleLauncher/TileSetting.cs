@@ -70,11 +70,12 @@ namespace LiveTilesWidget
             FrameLayout framePreviewWide = FindViewById<FrameLayout>(Resource.Id.framePreviewWide);
 
             //更新磁贴预览的Action
-            Action updatePreview = async () =>
+            Action updatePreview = () =>
             {
                 //清除上个预览
                 framePreviewNormal.RemoveAllViews();
                 framePreviewWide.RemoveAllViews();
+                tile.LoadIcon(this);
                 //更新普通磁贴
                 framePreviewNormal.AddView(Codes.UpdateTiles(tile, this, null, null).Apply(this, framePreviewNormal));
                 //更新带动态内容的磁贴
@@ -88,7 +89,7 @@ namespace LiveTilesWidget
                             //推送动态磁贴小部件更新
                             if (tile.ShowNotifIcon) //是否允许显示图标
                             {
-                                framePreviewWide.AddView(Codes.UpdateTiles(tile, this, text, ((BitmapDrawable)GetDrawable(Resource.Drawable.Icon)).Bitmap).Apply(this, framePreviewWide));
+                                framePreviewWide.AddView(Codes.UpdateTiles(tile, this, text, tile.Icon).Apply(this, framePreviewWide));
                             }
                             else
                             {
@@ -101,12 +102,12 @@ namespace LiveTilesWidget
                         }
                         break;
                     case LiveTileType.Rss:
-                        string textRss = null;
-                        Bitmap img = null;
-                        await Task.Run(() =>
-                       {
-                           Codes.ReadRss(tile.RssUrl, out textRss, out img);
-                       });
+                        string textRss = "RSS标题";
+                        Bitmap img = tile.Icon;
+                       // await Task.Run(() =>
+                       //{
+                       //    Codes.ReadRss(tile.RssUrl, out textRss, out img);
+                       //});
                         //更新小部件预览
                         framePreviewWide.AddView(Codes.UpdateTiles(tile, this, textRss, img).Apply(this, framePreviewWide));
                         break;
@@ -252,6 +253,7 @@ namespace LiveTilesWidget
                         FindViewById<Button>(Resource.Id.btnChooseApp).Text = label ?? "设置应用";
                         tile.Label = label;
                         tile.Name = data.GetStringExtra("Name");
+                        //tile.LoadIcon(this);
                         //tile.Icon = (Bitmap)data.GetParcelableExtra("Icon");
                         if (label != null && isInitialize)
                         {

@@ -49,7 +49,6 @@ namespace LiveTilesWidget
             ListView.FastScrollEnabled = true;
             ListView.FastScrollAlwaysVisible = true;
             ListAdapter = new AppListAdapter(this, Resource.Layout.AppPickerItems, apps.ToArray());
-            Thread.Sleep(2000);
             progressBar.Visibility = ViewStates.Gone;
             ListView.Visibility = ViewStates.Visible;
 

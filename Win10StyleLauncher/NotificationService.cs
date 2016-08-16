@@ -22,7 +22,14 @@ namespace LiveTilesWidget
         {
             base.OnCreate();
             Log.Debug("notif", "creating");
-            //因为此服务会随系统启动，因此可以在此处安排自动更新Rss，省去了监听系统启动完成的麻烦
+            //因为此服务会随系统启动，因此可以
+            //刷新所有磁贴
+            var editor = new TilesPreferenceEditor(this);
+            foreach(var item in editor.Tiles)
+            {
+                Codes.UpdateTiles(item.Id, this, null, null);
+            }
+            //在此处安排自动更新Rss，省去了监听系统启动完成的麻烦
             Codes.ArrangeRssUpdate(this);
         }
 
