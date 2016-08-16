@@ -165,7 +165,7 @@ namespace LiveTilesWidget
             set
             {
                 _rssUrl = value;
-                //PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("RssUrl"));
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("RssUrl"));
             }
         }
 
