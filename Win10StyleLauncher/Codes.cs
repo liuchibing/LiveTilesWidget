@@ -75,7 +75,7 @@ namespace LiveTilesWidget
         /// <summary>
         /// 刷新磁贴小部件
         /// </summary>
-        /// <param name="id">小部件的Id或存储小部件配置的TileDetail对象，若传入TileDetail对象则被视为请求磁贴预览，不会真的推送小部件更新</param>
+        /// <param name="id">小部件的Id或存储小部件配置的TileDetail对象，要正式推送请传入int类型，若传入TileDetail对象则被视为请求磁贴预览，不会真的推送小部件更新</param>
         /// <param name="context">当前上下文</param>
         /// <param name="notification">要在磁贴上显示的最新通知，没有则为null</param>
         /// <param name="icon">要在磁贴上显示的通知的图标，没有则为null</param>

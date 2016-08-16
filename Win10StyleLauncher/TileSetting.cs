@@ -70,7 +70,7 @@ namespace LiveTilesWidget
             FrameLayout framePreviewWide = FindViewById<FrameLayout>(Resource.Id.framePreviewWide);
 
             //更新磁贴预览的Action
-            Action updatePreview = async () =>
+            Action updatePreview = () =>
             {
                 //清除上个预览
                 framePreviewNormal.RemoveAllViews();
@@ -88,7 +88,8 @@ namespace LiveTilesWidget
                             //推送动态磁贴小部件更新
                             if (tile.ShowNotifIcon) //是否允许显示图标
                             {
-                                framePreviewWide.AddView(Codes.UpdateTiles(tile, this, text, ((BitmapDrawable)GetDrawable(Resource.Drawable.Icon)).Bitmap).Apply(this, framePreviewWide));
+                                tile.LoadIcon(this);
+                                framePreviewWide.AddView(Codes.UpdateTiles(tile, this, text, tile.Icon).Apply(this, framePreviewWide));
                             }
                             else
                             {
@@ -101,14 +102,16 @@ namespace LiveTilesWidget
                         }
                         break;
                     case LiveTileType.Rss:
-                        string textRss = null;
-                        Bitmap img = null;
-                        await Task.Run(() =>
-                       {
-                           Codes.ReadRss(tile.RssUrl, out textRss, out img);
-                       });
-                        //更新小部件预览
-                        framePreviewWide.AddView(Codes.UpdateTiles(tile, this, textRss, img).Apply(this, framePreviewWide));
+                        // string textRss = null;
+                        // Bitmap img = null;
+                        // await Task.Run(() =>
+                        //{
+                        //    Codes.ReadRss(tile.RssUrl, out textRss, out img);
+                        //});
+                        // //更新小部件预览
+                        // framePreviewWide.AddView(Codes.UpdateTiles(tile, this, textRss, img).Apply(this, framePreviewWide));
+                        tile.LoadIcon(this);
+                        framePreviewWide.AddView(Codes.UpdateTiles(tile, this, "RSS标题", tile.Icon).Apply(this, framePreviewWide));
                         break;
                 }
             };

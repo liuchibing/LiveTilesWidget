@@ -17,7 +17,7 @@ using Android.Util;
 namespace LiveTilesWidget
 {
     /// <summary>
-    /// 被定时调起进行更新动态磁贴上的rss内容的服务
+    /// 被定时调起进行更新动态磁贴上的动态内容的服务
     /// </summary>
     [Service(Label = "动态磁贴10磁贴自动刷新服务")]
     [IntentFilter(new string[] { "com.LiveTilesWidget.UpdateRss" })]
