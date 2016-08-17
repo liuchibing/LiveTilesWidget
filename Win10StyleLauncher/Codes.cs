@@ -207,7 +207,7 @@ namespace LiveTilesWidget
         /// 安排定时启动Rss自动更新服务
         /// </summary>
         /// <param name="context"></param>
-        public static void ArrangeRssUpdate(Service context)
+        public static void ArrangeRssUpdate(Context context)
         {
             Intent i = new Intent(context, typeof(AutoUpdateTileService));
             i.SetAction("com.LiveTilesWidget.UpdateRss");

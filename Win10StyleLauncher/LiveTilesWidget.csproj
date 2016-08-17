@@ -74,6 +74,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BootListener.cs" />
     <Compile Include="TileDetail.cs" />
     <Compile Include="AppListAdapter.cs" />
     <Compile Include="AppPicker.cs" />
