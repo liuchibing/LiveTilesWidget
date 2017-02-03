@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<appwidget-provider
+  xmlns:android = "http://schemas.android.com/apk/res/android"
+  android:minWidth = "40dp"
+  android:minHeight = "40dp"
+  android:initialLayout = "@layout/normal_tile"
+  android:resizeMode = "horizontal|vertical"
+  android:configure = "ml.liuchibing.livetiles10.TileSettingsActivity"
+  >
+</appwidget-provider>
