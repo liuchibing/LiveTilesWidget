@@ -21,12 +21,34 @@
         <activity
             android:name=".TileSettingsActivity"
             android:label="@string/title_activity_tile_settings">
-            <intent-filter> 
-                 <action android:name="android.appwidget.action.APPWIDGET_CONFIGURE" /> 
-            </intent-filter> 
+            <intent-filter>
+                 
+                 
+                <action android:name="android.appwidget.action.APPWIDGET_CONFIGURE" />
+                 
+            </intent-filter>
+             
         </activity>
 
-        <metadata android:name="android.appwidget.provider" android:resource="@xml/normal_tile" />
+        <metadata
+            android:name="android.appwidget.provider"
+            android:resource="@xml/normal_tile" />
+
+        <receiver android:name=".LiveTile">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/live_tile_info" />
+        </receiver>
+
+        <activity android:name=".LiveTileConfigureActivity">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_CONFIGURE" />
+            </intent-filter>
+        </activity>
     </application>
 
 </manifest>
