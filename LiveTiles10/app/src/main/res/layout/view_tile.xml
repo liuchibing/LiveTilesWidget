@@ -1,38 +1,51 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent" android:layout_height="match_parent">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
     <ImageView
+        android:id="@+id/tileBackGround"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/tileBackGround"
-        android:background="@android:color/holo_blue_bright"
         android:alpha="0.8"
+        android:background="@android:color/holo_blue_bright"
         android:contentDescription="" />
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-    <FrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/tileNotifParent"
-        android:textColor="@android:color/white"
-        android:textSize="12dp"
-        android:layout_marginLeft="3dp"
-        android:layout_marginRight="3dp"
-        android:layout_marginTop="3dp"
-        android:layout_above="@+id/tileLabel" />
+        <FrameLayout
+            android:id="@+id/tileNotifParent"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_above="@+id/tileLabel"
+            android:layout_marginLeft="3dp"
+            android:layout_marginRight="3dp"
+            android:layout_marginTop="3dp"
+            android:textColor="@android:color/white"
+            android:textSize="12dp" />
 
-    <TextView
-        android:text="Label"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentStart="true"
-        android:id="@+id/tileLabel"
-        android:textSize="12dp"
-        android:textColor="@android:color/white"
-        android:layout_margin="3dp" />
+        <TextView
+            android:id="@+id/tileLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentStart="true"
+            android:layout_margin="3dp"
+            android:text="Label"
+            android:textColor="@android:color/white"
+            android:textSize="12dp" />
+
+        <TextView
+            android:id="@+id/tileNotifCount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignTop="@+id/tileLabel"
+            android:layout_margin="3dp"
+            android:text="1"
+            android:textColor="@android:color/white"
+            android:textSize="12sp" />
     </RelativeLayout>
 </FrameLayout>

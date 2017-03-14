@@ -1,62 +1,83 @@
 package ml.liuchibing.livetiles10;
 
+import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
+import android.util.Log;
+
 import java.util.Dictionary;
 
 /**
- * Description: 一个动态磁贴的信息
- * Created by charlie on 2017/2/9.
+ * 一个动态磁贴的信息.
+ *
+ * @author liuchibing
+ *         Created by charlie on 2017/2/9.
  */
 
 public class Tile {
     public static final String EXTRA_RSS_URL = "RssUrl";
     public static final String EXTRA_NOTIFICATION_COUNT = "NotificationCount";
+    public static final String EXTRA_RECORD_NOTIFICATION_COUNT = "RecordNotificationCount";
 
     public Dictionary<String, String> ExtraInfo;
 
-    private String _label;
-    private String _packageName;
-    private TileType _type;
-    private int _tileColor;
-    private int _id;
+    private Bitmap icon;
+    private String label;
+    private String packageName;
+    private TileType type;
+    private int tileColor;
+    private int id;
 
-    public String get_label() {
-        return _label;
+    public void LoadIcon(Context context) {
+        try {
+            icon = ((BitmapDrawable) context.getPackageManager().getActivityIcon(context.getPackageManager().getLaunchIntentForPackage(getPackageName()))).getBitmap();
+        } catch (Exception e) {
+            Log.d("LoadIconError", "error:", e);
+        }
     }
 
-    public void set_label(String _label) {
-        this._label = _label;
+    public Bitmap getIcon() {
+        return icon;
     }
 
-    public String get_packageName() {
-        return _packageName;
+    public int getId() {
+        return id;
     }
 
-    public void set_packageName(String _packageName) {
-        this._packageName = _packageName;
+    public void setId(int id) {
+        this.id = id;
     }
 
-    public TileType get_type() {
-        return _type;
+    public String getLabel() {
+        return label;
     }
 
-    public void set_type(TileType _type) {
-        this._type = _type;
+    public void setLabel(String label) {
+        this.label = label;
     }
 
-    public int get_tileColor() {
-        return _tileColor;
+    public String getPackageName() {
+        return packageName;
     }
 
-    public void set_tileColor(int _tileColor) {
-        this._tileColor = _tileColor;
+    public void setPackageName(String packageName) {
+        this.packageName = packageName;
     }
 
-    public int get_id() {
-        return _id;
+    public TileType getType() {
+        return type;
     }
 
-    public void set_id(int _id) {
-        this._id = _id;
+    public void setType(TileType type) {
+        this.type = type;
+    }
+
+    public int getTileColor() {
+        return tileColor;
+    }
+
+    public void setTileColor(int tileColor) {
+        this.tileColor = tileColor;
     }
 
 }

@@ -31,6 +31,16 @@
             android:textSize="12dp"
             android:textColor="@android:color/white"
             android:layout_margin="3dp" />
+        <TextView
+            android:text="1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@+id/tileLabel"
+            android:layout_alignParentEnd="true"
+            android:id="@+id/tileNotifCount"
+            android:textSize="12sp"
+            android:layout_margin="3dp"
+            android:textColor="@android:color/white" />
     </RelativeLayout>
 
 </FrameLayout>
