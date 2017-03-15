@@ -1,9 +1,0 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android" package="LiveTilesWidget.LiveTilesWidget" android:installLocation="auto" android:versionName="5.6.1" android:versionCode="5006001">
-	<uses-sdk android:minSdkVersion="19" />
-	<uses-permission android:name="android.permission.BIND_NOTIFICATION_LISTENER_SERVICE" />
-	<uses-permission android:name="android.permission.SET_WALLPAPER" />
-	<uses-permission android:name="android.permission.INTERNET" />
-	<uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
-	<application android:label="动态磁贴10" android:icon="@drawable/Icon" android:theme="@style/Theme.Custom"></application>
-</manifest>

@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android" package="LiveTilesWidget.LiveTilesWidget" android:installLocation="auto" android:versionCode="5006002" android:versionName="5.6.2">
+	<uses-sdk android:minSdkVersion="23" />
+	<uses-permission android:name="android.permission.BIND_APPWIDGET" />
+	<uses-permission android:name="android.permission.BIND_NOTIFICATION_LISTENER_SERVICE" />
+	<uses-permission android:name="android.permission.INTERNET" />
+	<uses-permission android:name="android.permission.SET_WALLPAPER" />
+	<application android:label="LiveTilesWidget" android:icon="@drawable/Icon"></application>
+</manifest>
